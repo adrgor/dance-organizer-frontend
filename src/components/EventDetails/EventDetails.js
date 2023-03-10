@@ -12,7 +12,7 @@ export default function EventDetails() {
             <p>Dragon swing</p>
             <p>Kraków, Polska</p>
         </div>
-        <img className='banner' src='https://cdn.pixabay.com/photo/2016/12/08/23/36/round-dance-1893396_960_720.jpg'></img>
+        {/* <img className='banner' src='https://cdn.pixabay.com/photo/2016/12/08/23/36/round-dance-1893396_960_720.jpg'></img> */}
         
         <div className='description'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel est vel quam tempus tincidunt a quis tellus. Etiam in quam justo. Praesent non erat et nisl euismod viverra non sit amet eros. Pellentesque sed mauris sem. Morbi sagittis mollis laoreet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum in mauris ante. Praesent venenatis hendrerit ex vel rhoncus. Sed condimentum semper ligula, non ullamcorper nisl blandit ac. Etiam viverra, lorem vitae tristique elementum, tortor tellus suscipit metus, id faucibus eros magna eget felis. Nulla scelerisque mollis tortor, quis scelerisque nulla imperdiet sit amet. Fusce faucibus purus eu eros ultrices sodales. Nulla facilisi. Sed sollicitudin, tortor a mattis viverra, augue nisi lobortis magna, vitae eleifend nisl nisl eget nunc.

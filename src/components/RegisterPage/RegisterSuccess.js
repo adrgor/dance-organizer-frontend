@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './RegisterPage.css'
-import ApiUrl from '../../utils/ApiUrl'
+// import ApiUrl from '../../utils/ApiUrl'
 
 export default function RegisterForm() {
   return (

@@ -7,7 +7,7 @@ export default function RegisterPage() {
   const [registerStatus, setRegisterStatus] = useState(0)
  
   let content = <RegisterForm setRegisterStatus={setRegisterStatus}/>
-  if(registerStatus == 200) {
+  if(registerStatus === 200) {
     content = <RegisterSuccess/>
   }
 
