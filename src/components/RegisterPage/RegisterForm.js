@@ -4,11 +4,11 @@ import {validateUsername, validateEmail, validatePassword} from '../../utils/For
 import ApiUrl from '../../utils/ApiUrl'
 
 export default function RegisterForm({setRegisterStatus}) {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [repeatedEmail, setRepeatedEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [repeatedPassword, setRepeatedPassword] = useState("")
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [repeatedEmail, setRepeatedEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [repeatedPassword, setRepeatedPassword] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -35,40 +35,40 @@ export default function RegisterForm({setRegisterStatus}) {
   }
 
   return (
-    <form className="register-form" onSubmit={handleSubmit}>
+    <form className='register-form' onSubmit={handleSubmit}>
         <p className='title-registration'>Dancify</p>
 
-        <input className="form-input-registration" 
-               type="text" placeholder="Username"
+        <input className='form-input-registration' 
+               type='text' placeholder='Username'
                value={username}
                onChange={e => setUsername(e.target.value)}/>
 
-        <input className="form-input-registration" 
-               type="text" placeholder="Email"
+        <input className='form-input-registration' 
+               type='text' placeholder='Email'
                value={email}
                onChange={e => setEmail(e.target.value)}/>
 
-        <input className="form-input-registration" type="text" 
-               placeholder="Repeat Email"
+        <input className='form-input-registration' type='text' 
+               placeholder='Repeat Email'
                value={repeatedEmail}
                onChange={e => setRepeatedEmail(e.target.value)}/>
 
-        <input className="form-input-registration" 
-               type="password" placeholder="Password"
+        <input className='form-input-registration' 
+               type='password' placeholder='Password'
                value={password}
                onChange={e => setPassword(e.target.value)}/>
 
-        <input className="form-input-registration"
-               type="password" placeholder="Repeat Password"
+        <input className='form-input-registration'
+               type='password' placeholder='Repeat Password'
                value={repeatedPassword}
                onChange={e => setRepeatedPassword(e.target.value)}/>
          
-        <button className="form-input-registration form-btn" type="submit">
+        <button className='form-input-registration form-btn' type='submit'>
           CREATE ACCOUNT
         </button>
         
-        <div className="account-links">
-          <a href="/login">Already have an account?</a>
+        <div className='account-links'>
+          <a href='/login'>Already have an account?</a>
         </div>
     </form>
   )

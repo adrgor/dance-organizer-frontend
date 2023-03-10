@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function InfoBox() {
   return (
-    <div className="info-box">
+    <div className='info-box'>
     <p>Dancify is an always free app that makes it easy to:</p>
     
     <ul>
@@ -14,7 +14,7 @@ export default function InfoBox() {
         <li>And much more!</li>
     </ul>
 
-    <p>Start using dencify now, log in, create a new account, or <a href="/events" style={{color: "#638FFF"}}>BROWSE AS A GUEST</a></p>
+    <p>Start using dencify now, log in, create a new account, or <a href='/events' style={{color: '#638FFF'}}>BROWSE AS A GUEST</a></p>
 </div>
   )
 }
