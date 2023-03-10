@@ -9,7 +9,7 @@ import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswortPa
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import LoginPage from './components/LoginPage/LoginPage';
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import EventsPage from './components/EventsPage/EventsPage';
 import EventDetails from './components/EventDetails/EventDetails'
 
@@ -24,7 +24,7 @@ function App() {
           <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
           <Route path="events" element={<EventsPage/>}/>
           <Route path="event-details" element={<EventDetails/>}/>
-          <Route path="*" element={<h1>404 - Page not found</h1>}/>
+          <Route path="*" element={<Navigate replace to = "/login"/>}/>
         </Routes>
       </BrowserRouter>
     </div>
