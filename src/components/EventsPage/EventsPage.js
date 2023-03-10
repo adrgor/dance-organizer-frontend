@@ -5,7 +5,7 @@ import TopBar from './TopBar'
 export default function EventsPage() {
   return (
     <>
-      <div className="bg-image"></div>
+      <div className='bg-image'></div>
       <TopBar/>
       <EventsList/>
     </>

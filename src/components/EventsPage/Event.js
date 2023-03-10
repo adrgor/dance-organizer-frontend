@@ -13,8 +13,8 @@ export default function Event({ date, name, dance, place }) {
   
 
   return (
-    <a href="event-details" style={{color: "black"}}>
-      <tr className="event" onClick={handleFestivalClick}>
+    <a href='event-details' style={{color: 'black'}}>
+      <tr className='event' onClick={handleFestivalClick}>
           <th>{date}</th>
           <th>{name}</th>
           <th>{dance}</th>
