@@ -1,16 +1,26 @@
 import React, { useState } from 'react'
 import {validateUsername, validateEmail, validatePassword} from '../../utils/FormUtils'
 import ApiUrl from '../../utils/ApiUrl'
+import HttpCode from '../../utils/HttpCode'
 
-export default function RegisterForm({setRegisterStatus}) {
+export default function RegisterForm({registerStatus, setRegisterStatus}) {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [repeatedEmail, setRepeatedEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatedPassword, setRepeatedPassword] = useState('')
 
+  const [isUsernameValid, setIsUsernameValid] = useState(true)
+  const [isEmailValid, setIsEmailValid] = useState(true)
+  const [isRepeatedEmailValid, setIsRepeatedEmailValid] = useState(true)
+  const [isPasswordValid, setIsPasswordValid] = useState(true)
+  const [isRepeatedPasswordValid, setIsRepeatedPasswordValid] = useState(true)
+
+  const [errorMessage, setErrorMessage] = useState('')
+
   const handleSubmit = (e) => {
     e.preventDefault()
+    setRegisterStatus(0)
     if(validateForm({username, email, repeatedEmail, password, repeatedPassword})) {
       
       const requestOptions = {
@@ -23,62 +33,88 @@ export default function RegisterForm({setRegisterStatus}) {
       }
       
       fetch(ApiUrl.REGISTER, requestOptions)
-      .then(response => setRegisterStatus(response.status))
+      .then(response => {
+        if(response.status !== HttpCode.OK) {
+          response.json().then(data => setErrorMessage(data.message))
+        }
+        setRegisterStatus(response.status)
+      })
     }
     
   }
 
   const validateForm = ({username, email, repeatedEmail, password, repeatedPassword}) => {
+    setIsUsernameValid(validateUsername(username))
+    setIsEmailValid(validateEmail(email))
+    setIsRepeatedEmailValid(email === repeatedEmail && validateEmail(email))
+    setIsPasswordValid(validatePassword(password))
+    setIsRepeatedPasswordValid(password === repeatedPassword && validatePassword(password))
+
     return validateUsername(username) && validateEmail(email) && validatePassword(password) &&
            email === repeatedEmail && password === repeatedPassword
   }
 
   return (
     <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 h-full w-2/4 flex flex-col' onSubmit={handleSubmit}>
+
+      {registerStatus === HttpCode.CONFLICT  && 
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">Something went wrong! </strong>
+          <span class="block sm:inline">{errorMessage}</span>
+          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          </span>
+        </div>
+      }
+
       <p class='block text-gray-700 text-6xl font-bold mb-auto '>Create new account</p>
       <div class='mb-4'>
         <label class='block text-gray-700 text-2xl font-bold mb-2'>
           Username
         </label>
-        <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+        <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isUsernameValid ? 'border-red-500' : ''}`}
                type='text' placeholder='Username' value={username}
                onChange={e => setUsername(e.target.value)}/>
+        {!isUsernameValid && <p class="text-red-500 text-xs italic">Invalid username. Username needs to be at length must be between 4 and 30 characters</p>}
       </div>
 
       <div class='mb-4'>
         <label class='block text-gray-700 text-2xl font-bold mb-2'>
           Email
         </label>
-        <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+        <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isEmailValid ? 'border-red-500' : ''}`}
                type='text' placeholder='Email' value={email}
                onChange={e => setEmail(e.target.value)}/>
+        {!isEmailValid && <p class="text-red-500 text-xs italic">Invalid email address</p>}
       </div>
 
       <div class='mb-4'>
         <label class='block text-gray-700 text-2xl font-bold mb-2'>
           Repeat email
         </label>
-        <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+        <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isRepeatedEmailValid ? 'border-red-500' : ''}`}
                type='text' placeholder='Email' value={repeatedEmail}
                onChange={e => setRepeatedEmail(e.target.value)}/>
+        {!isRepeatedEmailValid && <p class="text-red-500 text-xs italic">Invalid email address or emails don't match</p>}
       </div>
 
       <div class='mb-6'>
         <label class='block text-gray-700 text-2xl font-bold mb-2'>
           Password
         </label>
-        <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline' 
+        <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isPasswordValid ? 'border-red-500' : ''}`}
                type='password' placeholder='******************' value={password}
                onChange={e => setPassword(e.target.value)}/>
+        {!isUsernameValid && <p class="text-red-500 text-xs italic">Invalid password. Password length must be between 6 and 40 characters and cannot contain whitespaces</p>}
       </div>
 
       <div class='mb-4'>
         <label class='block text-gray-700 text-2xl font-bold mb-2'>
           Repeat password
         </label>
-        <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+        <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isRepeatedPasswordValid ? 'border-red-500' : ''}`}
                type='password' placeholder='******************' value={repeatedPassword}
                onChange={e => setRepeatedPassword(e.target.value)}/>
+        {!isUsernameValid && <p class="text-red-500 text-xs italic">Invalid password or passwords don't match</p>}
       </div>
 
       <div class='flex items-center justify-between'>

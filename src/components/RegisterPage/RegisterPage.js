@@ -11,7 +11,7 @@ export default function RegisterPage() {
     <>
       {
         registerStatus === HttpCode.OK ? 
-        <RegisterSuccess/> : <RegisterForm setRegisterStatus={setRegisterStatus}/> 
+        <RegisterSuccess/> : <RegisterForm registerStatus={registerStatus} setRegisterStatus={setRegisterStatus}/> 
       }
     </>
   )
