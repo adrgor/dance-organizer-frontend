@@ -12,7 +12,7 @@ import EventDetails from './components/EventDetails/EventDetails'
 function App() {
 
   return (
-    <div className='App h-14 bg-gradient-to-r from-cyan-500 to-blue-500 h-full flex flex-col items-center justify-evenly'>
+    <div className='App h-14 bg-[url("/public/social-dance.webp")] bg-cover h-full flex flex-col items-center justify-evenly'>
       <BrowserRouter>
         <Routes>
           <Route path='login' element={<LoginPage/>}/>
