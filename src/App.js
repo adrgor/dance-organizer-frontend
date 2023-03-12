@@ -1,7 +1,3 @@
-import './App.css'
-import './components/LoginPage/LoginPage.css'
-import './components/RegisterPage/RegisterPage.css'
-import './components/ForgotPasswordPage/ForgotPasswordPage.css'
 import './components/EventsPage/EventsPage.css'
 import './components/EventDetails/EventDetails.css'
 
@@ -16,7 +12,7 @@ import EventDetails from './components/EventDetails/EventDetails'
 function App() {
 
   return (
-    <div className='App'>
+    <div className='App h-14 bg-[url("/public/social-dance.webp")] bg-cover h-full flex flex-col items-center justify-evenly'>
       <BrowserRouter>
         <Routes>
           <Route path='login' element={<LoginPage/>}/>
