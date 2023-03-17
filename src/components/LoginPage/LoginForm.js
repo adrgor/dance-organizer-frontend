@@ -1,8 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ApiUrl from '../../utils/ApiUrl'
+import HttpCode from '../../utils/HttpCode'
 
-export default function LoginForm() {
+export default function LoginForm({setErrorMessage}) {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('Handle submit')
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username, password}),
+    }
+
+    fetch(ApiUrl.LOGIN, requestOptions)
+      .then(response => {
+        if(response.status !== HttpCode.OK) {
+          response.json().then(data => setErrorMessage(data.message))
+        } else {
+          response.text().then(text => localStorage.setItem('jwt', text))
+          navigate('/events')
+        }
+      })
+
+  }
+
   return (
-    <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 w-2/5 h-full flex flex-col'>
+    <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 w-2/5 h-full flex flex-col'
+          onSubmit={handleSubmit}>
       <p class='block text-gray-700 text-6xl font-bold mb-auto '>Login</p>
 
       <div class='mb-4'>
@@ -10,7 +44,8 @@ export default function LoginForm() {
           Username or Email
         </label>
         <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
-               type='text' placeholder='Username / Email'/>
+               type='text' placeholder='Username / Email'
+               value={username} onChange={e => setUsername(e.target.value)}/>
       </div>
 
       <div class='mb-6'>
@@ -18,12 +53,13 @@ export default function LoginForm() {
           Password
         </label>
         <input class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline' 
-               type='password' placeholder='******************'/>
+               type='password' placeholder='******************'
+               value={password} onChange={e => setPassword(e.target.value)}/>
       </div>
 
       <div class='flex items-center justify-between'>
         <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline' 
-                type='button'>
+                type='submit'>
           Sign In
         </button>
 

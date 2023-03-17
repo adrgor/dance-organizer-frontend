@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {validateUsername, validateEmail, validatePassword} from '../../utils/FormUtils'
 import ApiUrl from '../../utils/ApiUrl'
 import HttpCode from '../../utils/HttpCode'
+import ErrorPopUp from '../ErrorPopUp'
 
 export default function RegisterForm({registerStatus, setRegisterStatus}) {
   const [username, setUsername] = useState('')
@@ -57,13 +58,8 @@ export default function RegisterForm({registerStatus, setRegisterStatus}) {
   return (
     <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 h-full w-2/4 flex flex-col' onSubmit={handleSubmit}>
 
-      {registerStatus === HttpCode.CONFLICT  && 
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <strong class="font-bold">Something went wrong! </strong>
-          <span class="block sm:inline">{errorMessage}</span>
-          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-          </span>
-        </div>
+      { errorMessage && 
+        <ErrorPopUp setErrorMessage={setErrorMessage} errorMessage={errorMessage}/>
       }
 
       <p class='block text-gray-700 text-6xl font-bold mb-auto '>Create new account</p>
@@ -104,7 +100,7 @@ export default function RegisterForm({registerStatus, setRegisterStatus}) {
         <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isPasswordValid ? 'border-red-500' : ''}`}
                type='password' placeholder='******************' value={password}
                onChange={e => setPassword(e.target.value)}/>
-        {!isUsernameValid && <p class="text-red-500 text-xs italic">Invalid password. Password length must be between 6 and 40 characters and cannot contain whitespaces</p>}
+        {!isPasswordValid && <p class="text-red-500 text-xs italic">Invalid password. Password length must be between 6 and 40 characters and cannot contain whitespaces</p>}
       </div>
 
       <div class='mb-4'>
@@ -114,7 +110,7 @@ export default function RegisterForm({registerStatus, setRegisterStatus}) {
         <input class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isRepeatedPasswordValid ? 'border-red-500' : ''}`}
                type='password' placeholder='******************' value={repeatedPassword}
                onChange={e => setRepeatedPassword(e.target.value)}/>
-        {!isUsernameValid && <p class="text-red-500 text-xs italic">Invalid password or passwords don't match</p>}
+        {!isRepeatedPasswordValid && <p class="text-red-500 text-xs italic">Invalid password or passwords don't match</p>}
       </div>
 
       <div class='flex items-center justify-between'>
