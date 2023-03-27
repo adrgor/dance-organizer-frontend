@@ -4,10 +4,9 @@ import TopBar from './TopBar'
 
 export default function EventsPage() {
   return (
-    <>
-      <div className='bg-image'></div>
+    <div className='w-screen h-screen'>
       <TopBar/>
       <EventsList/>
-    </>
+    </div>
   )
 }
