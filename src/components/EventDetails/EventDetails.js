@@ -37,7 +37,7 @@ export default function EventDetails() {
         <div className='flex-wrapper'>
           <a href='/events' className='back-btn'>&#60;= Browse events</a>
 
-          <div className='register-btn'>Register =></div>
+          <div className='register-btn'>Register =</div>
         </div>
       </div>
     </div>
