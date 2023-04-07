@@ -7,6 +7,7 @@ import DescriptionEditor from './DesriptionEditor'
 import danceStyles from '../../utils/DanceStyles'
 import ItemsSelect from '../FormComponents/ItemsSelect'
 import ApiUrl from '../../utils/ApiUrl'
+import eventTypes from '../../utils/EventTypes'
 
 export default function AddEvent() {
 
@@ -19,7 +20,7 @@ export default function AddEvent() {
   const [city, setCity] = useState()
   const [description, setDescription] = useState("")
   const [eventType, setEventType] = useState()
-  const [danceStyle, setDanceStyle] = useState()
+  const [selectedDanceStyles, setSelectedDanceStyles] = useState([])
 
   const handleDateChange = (newDate) => {
     setDate(newDate)
@@ -41,14 +42,9 @@ export default function AddEvent() {
 
   const handlePublish = (e) => {
     e.preventDefault()
-    
-    const filteredStyles = []
-    for (const [style, value] of Object.entries(danceStyle)) {
-      if(value) filteredStyles.push(style)
-    }
 
     const requestBody = {
-      eventName, startDate: date.startDate, endDate: date.endDate, country:country.name, city, description, eventType, danceStyles:filteredStyles
+      eventName, startDate: date.startDate, endDate: date.endDate, country:country.name, city, description, eventType, danceStyles:selectedDanceStyles
     }
 
     const requestOptions = {
@@ -70,7 +66,6 @@ export default function AddEvent() {
       <TopBar />
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-auto mt-5 w-10/12">
-
         <form className='min-h-[80%] bg-white p-5 flex flex-col'>
           <div className='flex items-center justify-between'>
             <input value={eventName} onChange={(e) => setEventName(e.target.value)} className='text-4xl w-1/2 pl-5 mb-5 leading-5 border-b focus:outline-none' placeholder='Event name'/>
@@ -113,10 +108,10 @@ export default function AddEvent() {
           <DescriptionEditor value={description} setValue={handleDescriptionChange}/>
 
           <label>Select event type</label>
-          <ItemsSelect items={['Festival', 'Worksop', 'Regular classes', 'One-time event', 'Other']} label="Select event type" setValue={setEventType}/>
+          <ItemsSelect items={eventTypes} label="Select event type" setValue={setEventType}/>
 
           <label>Select dance style</label>
-          <ItemsSelect items={danceStyles} isCheckboxSelected={true} isSearchEnabled={true} label="Select dance style" setValue={setDanceStyle}/>
+          <ItemsSelect items={danceStyles} isCheckboxSelected={true} isSearchEnabled={true} label="Select dance style" setValue={setSelectedDanceStyles} selectedItems={selectedDanceStyles}/>
 
           <div className='flex justify-between'>
               <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'

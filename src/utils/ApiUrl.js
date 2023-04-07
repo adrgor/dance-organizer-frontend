@@ -5,7 +5,8 @@ const baseUrl = `${baseAddress}:${port}`
 const ApiUrl = {
     LOGIN: `${baseUrl}/api/user/login`,
     REGISTER: `${baseUrl}/api/user/register`,
-    EVENT_RESOURCE: `${baseUrl}/api/event`
+    EVENT_RESOURCE: `${baseUrl}/api/event`,
+    EVENT_LAST_PAGE: `${baseUrl}/api/event/last_page`
 }
 
 module.exports = ApiUrl
