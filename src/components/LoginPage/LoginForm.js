@@ -11,7 +11,6 @@ export default function LoginForm({setErrorMessage}) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Handle submit')
 
     const requestOptions = {
       method: 'POST',

@@ -1,13 +1,10 @@
-import './components/EventsPage/EventsPage.css'
-import './components/EventDetails/EventDetails.css'
-
 import ForgotPasswordPage from './components/ForgotPasswordPage/ForgotPasswortPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import LoginPage from './components/LoginPage/LoginPage';
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import EventsPage from './components/EventsPage/EventsPage';
-import EventDetails from './components/EventDetails/EventDetails'
+import EventDetails from './components/EventsPage/EventDetails'
 import AddEvent from './components/EventDetails/AddEvent'
 
 function App() {
@@ -20,7 +17,7 @@ function App() {
           <Route path='register' element={<RegisterPage/>}/>
           <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
           <Route path='events' element={<EventsPage/>}/>
-          <Route path='event-details' element={<EventDetails/>}/>
+          <Route path='event-details/:id' element={<EventDetails/>}/>
           <Route path='add-event' element={<AddEvent/>}/>
           <Route path='*' element={<Navigate replace to = '/login'/>}/>
         </Routes>
