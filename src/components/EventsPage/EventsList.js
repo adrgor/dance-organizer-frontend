@@ -6,7 +6,7 @@ import Event from './Event'
 import FilterBar from '../EventDetails/FilterBar'
 import useOutsideClick from '../../hooks/useOutsideClick'
 
-export default function EventsList() {
+export default function EventsList({isMyList}) {
 
     const navigate = useNavigate()
     const handleNavigate = ({
@@ -20,9 +20,11 @@ export default function EventsList() {
         fromDate = '',
         toDate = ''
     } = {}) => {
-        navigate(`/events?events_per_page=${eventsPerPage}&page_number=${pageNumber}&event_name=${eventName}&` +
-                 `countries=${countries}&city=${city}&event_types=${eventTypes}&dance_styles=${danceStyles}&` + 
-                 `from_date=${fromDate}&to_date=${toDate}`)
+        const url = `/${isMyList ? "my-events" : "events"}?events_per_page=${eventsPerPage}&page_number=${pageNumber}&event_name=${eventName}&` +
+                  `countries=${countries}&city=${city}&event_types=${eventTypes}&dance_styles=${danceStyles}&` + 
+                  `from_date=${fromDate}&to_date=${toDate}`
+
+        navigate(url)
     }
 
     const [events, setEvents] = useState([]);
@@ -54,7 +56,7 @@ export default function EventsList() {
 
     const handleOnSearchSubmit = e => {
         e.preventDefault()
-        navigate(`/events?events_per_page=${eventsPerPage}&page_number=1&event_name=${searchBarName}`)  
+        navigate(`/${isMyList ? "my-events" : "events"}?events_per_page=${eventsPerPage}&page_number=1&event_name=${searchBarName}`)  
     }
 
     useEffect(() => {
@@ -68,7 +70,8 @@ export default function EventsList() {
             },
         };
 
-        const url = ApiUrl.EVENT_RESOURCE + `?events_per_page=${eventsPerPage}`
+        const url = (isMyList ? ApiUrl.MY_EVENT_RESOURCE : ApiUrl.EVENT_RESOURCE) 
+                    + `?events_per_page=${eventsPerPage}`
                     + `&page_number=${pageNumber}`
                     + `&event_name=${eventName}`
                     + `&countries=${countries}`
@@ -78,11 +81,9 @@ export default function EventsList() {
                     + `&from_date=${fromDate}`
                     + `&to_date=${toDate}`
 
-        console.log(url)
-
         const [eventsResponse, lastPageResponse] = await Promise.all([
             fetch(url, requestOptions),
-            fetch(`${ApiUrl.EVENT_LAST_PAGE}?events_per_page=${eventsPerPage}`, requestOptions),
+            fetch(`${isMyList ? ApiUrl.MY_EVENT_LAST_PAGE : ApiUrl.EVENT_LAST_PAGE}?events_per_page=${eventsPerPage}`, requestOptions),
         ]);
 
         const [eventsData, lastPageData] = await Promise.all([

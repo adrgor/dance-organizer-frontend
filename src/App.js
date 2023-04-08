@@ -17,6 +17,7 @@ function App() {
           <Route path='register' element={<RegisterPage/>}/>
           <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
           <Route path='events' element={<EventsPage/>}/>
+          <Route path='my-events' element={<EventsPage isMyList={true}/>}/>
           <Route path='event-details/:id' element={<EventDetails/>}/>
           <Route path='add-event' element={<AddEvent/>}/>
           <Route path='*' element={<Navigate replace to = '/login'/>}/>
