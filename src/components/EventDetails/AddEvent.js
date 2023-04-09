@@ -58,7 +58,6 @@ export default function AddEvent() {
     }
 
     fetch(ApiUrl.EVENT_RESOURCE, requestOptions)
-    .then()
   }
 
   return (
