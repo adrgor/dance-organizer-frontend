@@ -2,19 +2,65 @@ import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import TopBar from './TopBar'
 import DescriptionEditor from '../EventDetails/DesriptionEditor'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ApiUrl from '../../utils/ApiUrl'
+import TransparentPopUp from '../TransparentPopUp'
 
 export default function EventDetails() {
 
   const { id } = useParams()
   const [eventDetails, setEventDetails] = useState({})
+  const [isOwned, setOwned] = useState(false)
+  const [isActionBtnClicked, setActionBtnClicked] = useState(false)
+  const [isPopUpActive, setPopUpActive] = useState(false)
+  const [popUpText, setPopUpText] = useState("")
+  const [acceptFunction, setAcceptFunction] = useState()
 
   const startingDate = new Date(eventDetails.startingDate)
   const endingDate = new Date(eventDetails.endingDate)
   const [startYear, startMonth, startDate] = [startingDate.getFullYear(), startingDate.getMonth(), startingDate.getDate()]
   const [endYear, endMonth, endDate] = [endingDate.getFullYear(), endingDate.getMonth(), endingDate.getDate()]
 
+  const navigate = useNavigate()
+
+  const handleOnActionBtnClicked = () => {
+    setActionBtnClicked(!isActionBtnClicked)
+  }
+
+  const handlePopUpActivate = (text, acceptFunction) => {
+    setPopUpText(text)
+    setPopUpActive(true)
+    setAcceptFunction(acceptFunction)
+  }
+
+  const deleteEvent = () => {
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+      },
+    }
+
+    fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
+    navigate("/events")
+  }
+
+  const publishEvent = () => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+      },
+    }
+
+    fetch(`${ApiUrl.CHANGE_STATUS}/${id}`, requestOptions)
+    navigate("/events")
+  }
 
   useEffect(() => {
     const requestOptions = {
@@ -27,12 +73,16 @@ export default function EventDetails() {
     }
     fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
     .then(response => response.json())
-    .then(data => setEventDetails(data))
+    .then(data => {
+      setEventDetails(data)
+      setOwned(data.owned)
+    })
 }, [])
 
   return (
     <div className='w-screen h-full overflow-auto'>
       <TopBar />
+      <TransparentPopUp isActive={isPopUpActive} popUpText={popUpText} setActive={setPopUpActive} onAccept={acceptFunction}/>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-auto mt-5 w-10/12">
 
@@ -63,17 +113,34 @@ export default function EventDetails() {
           </div>
 
           <div className='flex justify-between'>
-              <a href="/events" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
-                Back
-              </a>
-            <div>
-              <a href="#" class='mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
-                Add to favorites
-              </a>
-              <a href="#" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
-                Register
-              </a>
-            </div>
+              <div>
+                <a href="/events" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
+                  Back
+                </a>
+              </div>
+
+              {isOwned ? 
+                <div className='relative' onClick={handleOnActionBtnClicked}>
+                  <div className={`absolute bottom-[150%] w-72 right-0 ${isActionBtnClicked ? 'flex flex-col' : 'hidden'} border border-gray-300 bg-gray-50 p-2 text-2xl font-bold rounded-sm`}>
+                    <a href="#" className='p-2 hover:bg-gray-100'>Edit</a>
+                    <a href="#" onClick={() => handlePopUpActivate("Are you sure you want to publish the event?", () => publishEvent)} className='p-2 hover:bg-gray-100'>
+                      {eventDetails.status == "DRAFT" ? "Publish" : "Revert to draft"}
+                    </a>
+                    <a href="#" className='p-2 hover:bg-gray-100'>Manage registration</a>
+                    <a href="#" onClick={() => handlePopUpActivate("Are you sure you want to delete the event?", () => deleteEvent)} className='p-2 hover:bg-gray-100'>Delete</a>
+                  </div>
+                  <a href="#" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
+                    Actions
+                  </a>
+                </div> 
+                :
+                <div>
+                  <a href="#" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
+                    Register
+                  </a>
+                </div>
+              }
+              
           </div>
 
         </div>
