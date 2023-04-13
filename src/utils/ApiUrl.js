@@ -9,7 +9,8 @@ const ApiUrl = {
     EVENT_LAST_PAGE: `${baseUrl}/api/event/last_page`,
     MY_EVENT_RESOURCE: `${baseUrl}/api/event/my_events`,
     MY_EVENT_LAST_PAGE: `${baseUrl}/api/event/my_events/last_page`,
-    CHANGE_STATUS: `${baseUrl}/api/event/change_status`
+    CHANGE_STATUS: `${baseUrl}/api/event/change_status`,
+    EDIT_EVENT: `${baseUrl}/api/event/edit`
 }
 
 module.exports = ApiUrl

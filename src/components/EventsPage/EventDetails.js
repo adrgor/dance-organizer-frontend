@@ -122,7 +122,7 @@ export default function EventDetails() {
               {isOwned ? 
                 <div className='relative' onClick={handleOnActionBtnClicked}>
                   <div className={`absolute bottom-[150%] w-72 right-0 ${isActionBtnClicked ? 'flex flex-col' : 'hidden'} border border-gray-300 bg-gray-50 p-2 text-2xl font-bold rounded-sm`}>
-                    <a href="#" className='p-2 hover:bg-gray-100'>Edit</a>
+                    <a href={`/edit-event/${id}`} className='p-2 hover:bg-gray-100'>Edit</a>
                     <a href="#" onClick={() => handlePopUpActivate("Are you sure you want to publish the event?", () => publishEvent)} className='p-2 hover:bg-gray-100'>
                       {eventDetails.status == "DRAFT" ? "Publish" : "Revert to draft"}
                     </a>

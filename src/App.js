@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import EventsPage from './components/EventsPage/EventsPage';
 import EventDetails from './components/EventsPage/EventDetails'
 import AddEvent from './components/EventDetails/AddEvent'
+import EditEvent from './components/EventDetails/EditEvent';
 
 function App() {
 
@@ -18,8 +19,9 @@ function App() {
           <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
           <Route path='events' element={<EventsPage/>}/>
           <Route path='my-events' element={<EventsPage isMyList={true}/>}/>
-          <Route path='event-details/:id' element={<EventDetails/>}/>
           <Route path='add-event' element={<AddEvent/>}/>
+          <Route path='event-details/:id' element={<EventDetails/>}/>
+          <Route path='edit-event/:id' element={<EditEvent/>}/>
           <Route path='*' element={<Navigate replace to = '/login'/>}/>
         </Routes>
       </BrowserRouter>
