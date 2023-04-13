@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import TopBar from '../EventsPage/TopBar'
 import countries from '../../countries.json'
@@ -8,9 +8,11 @@ import danceStyles from '../../utils/DanceStyles'
 import ItemsSelect from '../FormComponents/ItemsSelect'
 import ApiUrl from '../../utils/ApiUrl'
 import eventTypes from '../../utils/EventTypes'
+import { useParams } from 'react-router-dom'
 
-export default function AddEvent() {
+export default function EditEvent() {
 
+  const { id } = useParams()
   const [eventName, setEventName] = useState()
   const [date, setDate] = useState({
       startDate: {},
@@ -19,7 +21,7 @@ export default function AddEvent() {
   const [country, setCountry] = useState()
   const [city, setCity] = useState()
   const [description, setDescription] = useState("")
-  const [eventType, setEventType] = useState("Select event type")
+  const [eventType, setEventType] = useState()
   const [selectedDanceStyles, setSelectedDanceStyles] = useState([])
 
   const handleDateChange = (newDate) => {
@@ -27,7 +29,7 @@ export default function AddEvent() {
   }
 
   const handleOnSelect = (country) => {
-    setCountry(country)
+    setCountry(country.name)
   }
 
   const handleDescriptionChange = (newDescription) => {
@@ -44,11 +46,13 @@ export default function AddEvent() {
     e.preventDefault()
 
     const requestBody = {
-      eventName, startDate: date.startDate, endDate: date.endDate, country:country.name, city, description, eventType, danceStyles:selectedDanceStyles
+      eventName, startDate: date.startDate, endDate: date.endDate, country: country, city, description, eventType, danceStyles:selectedDanceStyles
     }
 
+    console.log(JSON.stringify(requestBody))
+
     const requestOptions = {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -57,8 +61,35 @@ export default function AddEvent() {
       body: JSON.stringify(requestBody),
     }
 
-    fetch(ApiUrl.EVENT_RESOURCE, requestOptions)
+    fetch(`${ApiUrl.EDIT_EVENT}/${id}`, requestOptions)
   }
+
+  useEffect(() => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+        }
+    }
+
+    fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        setCountry(data.country)
+        setCity(data.city)
+        setEventName(data.name)
+        setDescription(data.description)
+        setEventType(data.eventType)
+        setSelectedDanceStyles(data.danceStyles)
+        setDate({
+            startDate: data.startingDate,
+            endDate: data.endingDate
+        })
+    })
+  }, [])
 
   return (
     <div className='w-screen h-full overflow-auto'>
@@ -84,7 +115,7 @@ export default function AddEvent() {
             <div className='w-1/2 '>
               <ReactSearchAutocomplete
                 items={countries}
-                placeholder='Country'
+                placeholder={country}
                 autoFocus
                 maxResults={5}
                 formatResult={formatResult}
@@ -115,16 +146,16 @@ export default function AddEvent() {
           <div className='flex justify-between'>
               <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'
                       onClick={()=>{}}>
-                Preview
+                Back
               </button>
             <div>
               <button class='mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'
                       onClick={handlePublish}>
-                Publish
+                Save as draft
               </button>
               <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'
                       onClick={()=>{}}>
-                Save as draft
+                Save and publish
               </button>
             </div>
           </div>
