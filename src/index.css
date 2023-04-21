@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    opacity: 1 !important;
+    height: 34px;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  input[type="number"] {
+    background-position: center right;
+    background-repeat: no-repeat;
+    caret-color: transparent;
+  }
+  
+}
+
 html, body {
   margin: 0;
   height: 100%;
