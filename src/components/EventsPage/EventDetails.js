@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import TopBar from './TopBar'
 import DescriptionEditor from '../EventDetails/DesriptionEditor'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -126,7 +125,7 @@ export default function EventDetails() {
                     <a href="#" onClick={() => handlePopUpActivate("Are you sure you want to publish the event?", () => publishEvent)} className='p-2 hover:bg-gray-100'>
                       {eventDetails.status == "DRAFT" ? "Publish" : "Revert to draft"}
                     </a>
-                    <a href="#" className='p-2 hover:bg-gray-100'>Manage registration</a>
+                    <a href={`/registration-dashboard?eventId=${eventDetails.eventId}`} className='p-2 hover:bg-gray-100'>Manage registration</a>
                     <a href="#" onClick={() => handlePopUpActivate("Are you sure you want to delete the event?", () => deleteEvent)} className='p-2 hover:bg-gray-100'>Delete</a>
                   </div>
                   <a href="#" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
@@ -140,11 +139,8 @@ export default function EventDetails() {
                   </a>
                 </div>
               }
-              
           </div>
-
-        </div>
-    
+        </div>    
       </div>
     </div>
   )

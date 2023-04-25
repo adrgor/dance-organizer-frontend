@@ -2,9 +2,16 @@ import React from "react";
 import TopBar from "../../EventsPage/TopBar";
 import AddProductForm from "./AddProductForm";
 import { useState } from "react";
+import ApiUrl from "../../../utils/ApiUrl";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([{ options: [{}] }]);
+
+  const [searchParams] = useSearchParams()
+  const eventId = searchParams.get("eventId") 
+
+  const navigate = useNavigate()
 
   const setProduct = (product, index) => {
     const productCopy = [...products];
@@ -25,6 +32,24 @@ export default function ProductsPage() {
   const handleSave = (e) => {
     e.preventDefault();
     console.log(products);
+
+    const requestBody = {
+      products,
+      eventId: parseInt(eventId)
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify(requestBody),
+    };
+
+    fetch(ApiUrl.PRODUCT, requestOptions);
+    navigate(`/registration-dashboard?eventId=${eventId}`)
   };
 
   return (

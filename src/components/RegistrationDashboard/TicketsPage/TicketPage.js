@@ -2,10 +2,16 @@ import React from "react";
 import TopBar from "../../EventsPage/TopBar";
 import AddTicketForm from "./AddTicketForm";
 import { useState } from "react";
+import ApiUrl from "../../../utils/ApiUrl";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function TicketPage() {
   const [tickets, setTickets] = useState([]);
-  const [maxTicketIndex, setMaxTicketIndex] = useState(0);
+
+  const [searchParams] = useSearchParams()
+  const eventId = searchParams.get("eventId") 
+
+  const navigate = useNavigate()
 
   const handleAddTicket = () => {
     setTickets([...tickets, {}]);
@@ -25,7 +31,24 @@ export default function TicketPage() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    console.log(tickets);
+    
+    const requestBody = {
+      tickets,
+      eventId: parseInt(eventId)
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify(requestBody),
+    };
+
+    fetch(ApiUrl.TICKET, requestOptions);
+    navigate(`/registration-dashboard?eventId=${eventId}`)
   };
 
   return (

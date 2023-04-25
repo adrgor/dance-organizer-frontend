@@ -1,8 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function Products() {
   const [mode, setMode] = useState("FOLDED");
+  const [searchParams] = useSearchParams()
+  const eventId = searchParams.get("eventId")
 
   const handleFolding = () => {
     if (mode == "FOLDED") setMode("UNFOLDED");
@@ -32,7 +35,7 @@ export default function Products() {
           </p>
           <a
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-            href="/registration-dashboard/products"
+            href={`/registration-dashboard/products?eventId=${eventId}`}
           >
             Create products
           </a>

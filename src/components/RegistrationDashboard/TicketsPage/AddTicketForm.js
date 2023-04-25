@@ -50,28 +50,6 @@ export default function AddTicketForm({ ticket, setTicket, removeTicket }) {
             setTicket({ ...ticket, numberOfTickets: e.target.value })
           }
         />
-
-        <input
-          className={`w-3/4 px-2 py-4 border-b focus:outline-none focus:border-b-black focus:text-black ${
-            ticket.type === "Solo ticket" && "hidden"
-          }`}
-          type="number"
-          min={0}
-          placeholder="Leaders"
-          value={ticket.leaders}
-          onChange={(e) => setTicket({ ...ticket, leaders: e.target.value })}
-        />
-
-        <input
-          className={`w-3/4 px-2 py-4 border-b focus:outline-none focus:border-b-black focus:text-black ${
-            ticket.type === "Solo ticket" && "hidden"
-          }`}
-          type="number"
-          min={0}
-          placeholder="Followers"
-          value={ticket.followers}
-          onChange={(e) => setTicket({ ...ticket, followers: e.target.value })}
-        />
       </div>
 
       <div className="absolute top-5 right-0" onClick={removeTicket}>

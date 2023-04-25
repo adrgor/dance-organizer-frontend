@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function TicketTypes() {
   const [mode, setMode] = useState("FOLDED");
+  const [searchParams] = useSearchParams()
+  const eventId = searchParams.get("eventId")
 
   const handleFolding = () => {
     if (mode == "FOLDED") setMode("UNFOLDED");
@@ -29,7 +32,7 @@ export default function TicketTypes() {
           <p className="my-5 text-xl">You haven't defined any tickets yet</p>
           <a
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-            href="/registration-dashboard/tickets"
+            href={`/registration-dashboard/tickets?eventId=${eventId}`}
           >
             Create tickets
           </a>
