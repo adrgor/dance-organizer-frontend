@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
 export default function AddProductForm({ product, setProduct, removeProduct }) {
@@ -36,6 +37,10 @@ export default function AddProductForm({ product, setProduct, removeProduct }) {
     productCopy.fieldType = e.target.value;
     setProduct(productCopy);
   };
+
+  useState(()=> {
+    setSingleOptionField(product.type == "Boolean" || product.type == "Input field")
+  }, [])
 
   return (
     <div

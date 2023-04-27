@@ -8,7 +8,7 @@ export default function RegistrationInput({
   setInput,
 }) {
   const addOption = (e) => {
-    const optionsCopy = [...input.options, { value: "" }];
+    const optionsCopy = [...input.options, ""];
     const newInput = { ...input, options: optionsCopy };
     setInput(newInput);
     addToFormInputs(newInput);
@@ -19,7 +19,7 @@ export default function RegistrationInput({
     if (input.options.length > 1) optionsCopy.splice(index, 1);
     else {
       const option = optionsCopy[index];
-      option.value = "";
+      option = "";
     }
 
     const newInput = { ...input, options: optionsCopy };
@@ -29,8 +29,7 @@ export default function RegistrationInput({
 
   const handleOptionInputChange = (e, index) => {
     const optionsCopy = [...input.options];
-    const option = optionsCopy[index];
-    option.value = e.target.value;
+    optionsCopy[index] = e.target.value;
 
     const newInput = { ...input, options: optionsCopy };
     setInput(newInput);
@@ -38,7 +37,7 @@ export default function RegistrationInput({
   };
 
   const handleIsRequiredChange = (e) => {
-    const newInput = { ...input, required: !input.required };
+    const newInput = { ...input, isRequired: !input.isRequired };
     setInput(newInput);
     addToFormInputs(newInput);
   };
@@ -79,7 +78,7 @@ export default function RegistrationInput({
                 <input
                   className="w-3/4 px-2 py-5 border-b focus:outline-none focus:border-b-black focus:text-black"
                   placeholder={`Option ${index + 1}`}
-                  value={option.value}
+                  value={option}
                   onChange={(e) => handleOptionInputChange(e, index)}
                 />
                 <svg
@@ -133,7 +132,7 @@ export default function RegistrationInput({
             <input
               className="sr-only peer"
               type="checkbox"
-              checked={input.required}
+              checked={input.isRequired}
               onChange={handleIsRequiredChange}
             />
             <div

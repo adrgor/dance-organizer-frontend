@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import ApiUrl from "../../utils/ApiUrl";
 
 export default function Products() {
+  const [products, setProducts] = useState([])
+
   const [mode, setMode] = useState("FOLDED");
   const [searchParams] = useSearchParams()
   const eventId = searchParams.get("eventId")
@@ -11,6 +14,27 @@ export default function Products() {
     if (mode == "FOLDED") setMode("UNFOLDED");
     else setMode("FOLDED");
   };
+
+  useEffect(()=> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    };
+
+    fetch(`${ApiUrl.PRODUCT}?eventId=${eventId}`, requestOptions)
+    .then( (res) => res.json() )
+    .then( (data) => {
+      if(data.products.options == null) {
+        data.products.options = []
+      }
+      setProducts(data.products) 
+    }
+    )
+  }, [])
 
   return (
     <div onClick={handleFolding} className="relative border p-5 mt-5">
@@ -30,14 +54,28 @@ export default function Products() {
       <p className="text-4xl font-bold mb-2 w-fit border-b">Products</p>
       {mode == "UNFOLDED" && (
         <>
-          <p className="my-5 text-xl">
-            You haven't defined any extra products yet
-          </p>
+          {
+            products.length > 0 ? 
+                <div>
+                {products.map( (product, index) => {
+                  if(index < 4) {
+                    return <p className="bg-gray-50 p-5 border mb-1 font-bold"> {product.name.toUpperCase()} </p>
+                  } else if(index === 4) {
+                    return <p className="bg-gray-50 p-5 border mb-5 font-bold">...</p>
+                  }
+                })}
+                </div>
+               :
+              <p className="my-5 text-xl border">
+                You haven't defined any products yet
+              </p>
+          }
+          
           <a
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
             href={`/registration-dashboard/products?eventId=${eventId}`}
           >
-            Create products
+            Define products
           </a>
         </>
       )}

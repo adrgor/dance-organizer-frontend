@@ -2,14 +2,21 @@ import React from "react";
 import TopBar from "../../EventsPage/TopBar";
 import RegistrationInput from "./RegistrationInput";
 import { useState } from "react";
+import ApiUrl from "../../../utils/ApiUrl";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function RegistrationForm() {
+  const [searchParams] = useSearchParams()
+  const eventId = searchParams.get("eventId")
+  const navigate = useNavigate()
+
   const [registerFormInputs, setRegisterFormInputs] = useState([
     {
       question: "",
       type: "Email",
-      options: [{ value: "" }],
-      required: true,
+      options: [""],
+      isRequired: true,
       description: "",
     },
   ]);
@@ -20,8 +27,8 @@ export default function RegistrationForm() {
       {
         question: "",
         type: "Email",
-        options: [{ value: "" }],
-        required: true,
+        options: [""],
+        isRequired: true,
         description: "",
       },
     ]);
@@ -39,16 +46,50 @@ export default function RegistrationForm() {
     setRegisterFormInputs(registerFormCopy);
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(registerFormInputs);
-  };
-
   const remove = (index) => {
     const registerFormInputsCopy = [...registerFormInputs];
     registerFormInputsCopy.splice(index, 1);
     setRegisterFormInputs(registerFormInputsCopy);
   };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    console.log(registerFormInputs)
+    const requestBody = {
+      inputs: registerFormInputs,
+      eventId: parseInt(eventId)
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify(requestBody),
+    };
+
+    fetch(ApiUrl.FORM, requestOptions);
+    navigate(`/registration-dashboard?eventId=${eventId}`)
+  };
+
+  useEffect( () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    };
+
+    fetch(`${ApiUrl.FORM}?eventId=${eventId}`, requestOptions)
+    .then( (res) => res.json() )
+    .then( (data) => {
+      setRegisterFormInputs(data.inputs) 
+    })
+  }, [])
 
   return (
     <div className="w-full h-full">

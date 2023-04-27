@@ -4,6 +4,7 @@ import AddProductForm from "./AddProductForm";
 import { useState } from "react";
 import ApiUrl from "../../../utils/ApiUrl";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([{ options: [{}] }]);
@@ -52,6 +53,23 @@ export default function ProductsPage() {
     navigate(`/registration-dashboard?eventId=${eventId}`)
   };
 
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    };
+
+    fetch(`${ApiUrl.PRODUCT}?eventId=${eventId}`, requestOptions)
+    .then( (res) => res.json() )
+    .then( (data) => {
+      setProducts(data.products) 
+    })
+  }, [])
+
   return (
     <div className="w-full h-full">
       <TopBar />
@@ -67,6 +85,9 @@ export default function ProductsPage() {
             <p className="text-2xl text-center">No products added</p>
           )}
           {products.map((product, index) => {
+            if(product.options == null) {
+              product.options = [{}]
+            }
             return (
               <AddProductForm
                 product={product}

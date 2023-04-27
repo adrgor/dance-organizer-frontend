@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import ApiUrl from "../../utils/ApiUrl";
 
 export default function TicketTypes() {
+  const [tickets, setTickets] = useState([])
+
   const [mode, setMode] = useState("FOLDED");
   const [searchParams] = useSearchParams()
   const eventId = searchParams.get("eventId")
@@ -10,6 +14,21 @@ export default function TicketTypes() {
     if (mode == "FOLDED") setMode("UNFOLDED");
     else setMode("FOLDED");
   };
+
+  useEffect(()=> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    };
+
+    fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
+    .then( (res) => res.json() )
+    .then( (data) => setTickets(data.tickets) )
+  }, [])
 
   return (
     <div onClick={handleFolding} className="relative border p-5 mt-5">
@@ -29,12 +48,48 @@ export default function TicketTypes() {
       <p className="text-4xl font-bold mb-2 w-fit border-b">Tickets</p>
       {mode == "UNFOLDED" && (
         <>
-          <p className="my-5 text-xl">You haven't defined any tickets yet</p>
+          {
+            tickets.length > 0 ? 
+              <table className="mb-5 w-full">
+                <thead>
+                  <tr>
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Price</td>
+                    <td>Number of tickets</td>
+                  </tr>
+                </thead>
+                {
+                  tickets.map((ticket, index) => {
+                    if (index < 4) {
+                      return (
+                        <tr >
+                          <td className="p-5 bg-gray-50 border font-bold">{ticket.name.toUpperCase()}</td>
+                          <td className="p-5 bg-gray-50 border font-bold">{ticket.type.toUpperCase()}</td>
+                          <td className="p-5 bg-gray-50 border font-bold">{ticket.price}</td>
+                          <td className="p-5 bg-gray-50 border font-bold">{ticket.numberOfTickets}</td>
+                        </tr> 
+                      )
+                    } else if (index === 4) {
+                      return <tr>
+                        <td className="p-5 bg-gray-50 border font-bold" colSpan={4}>...</td>
+                      
+                      </tr>
+                    }
+                  })
+                }
+              </table>
+            : 
+              <p className="my-5 text-xl">You haven't defined any tickets yet</p>
+          }
+          
+
+
           <a
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
             href={`/registration-dashboard/tickets?eventId=${eventId}`}
           >
-            Create tickets
+            Define tickets
           </a>
         </>
       )}

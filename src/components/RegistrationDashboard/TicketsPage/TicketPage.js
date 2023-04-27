@@ -4,6 +4,7 @@ import AddTicketForm from "./AddTicketForm";
 import { useState } from "react";
 import ApiUrl from "../../../utils/ApiUrl";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function TicketPage() {
   const [tickets, setTickets] = useState([]);
@@ -50,6 +51,21 @@ export default function TicketPage() {
     fetch(ApiUrl.TICKET, requestOptions);
     navigate(`/registration-dashboard?eventId=${eventId}`)
   };
+
+  useEffect(()=> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    };
+
+    fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
+    .then( (res) => res.json() )
+    .then( (data) => setTickets(data.tickets) )
+  }, [])
 
   return (
     <div className="w-full h-full">
