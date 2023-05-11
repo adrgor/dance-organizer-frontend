@@ -1,6 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
+import { BOOLEAN, CHECKBOX, INPUT_FIELD, RADIO, SELECT } from "../../../utils/ProductInputs";
 
 export default function AddProductForm({ product, setProduct, removeProduct }) {
   const [isSingleOptionField, setSingleOptionField] = useState(true);
@@ -29,7 +29,7 @@ export default function AddProductForm({ product, setProduct, removeProduct }) {
   const handleOnFieldTypeChange = (e) => {
     const targetType = e.target.value;
     const productCopy = { ...product };
-    if (targetType == "Boolean" || targetType == "Input field") {
+    if (targetType === {BOOLEAN} || targetType === {INPUT_FIELD}) {
       setSingleOptionField(true);
       productCopy.options = [{ name: "", price: "", currency: "" }];
     } else setSingleOptionField(false);
@@ -39,7 +39,7 @@ export default function AddProductForm({ product, setProduct, removeProduct }) {
   };
 
   useState(()=> {
-    setSingleOptionField(product.type == "Boolean" || product.type == "Input field")
+    setSingleOptionField(product.type === {BOOLEAN} || product.type === {INPUT_FIELD})
   }, [])
 
   return (
@@ -59,14 +59,14 @@ export default function AddProductForm({ product, setProduct, removeProduct }) {
           value={product.fieldType}
           onChange={handleOnFieldTypeChange}
         >
-          <option selected="selected" disabled={true}>
+          <option selected disabled>
             Select field type
           </option>
-          <option>Input field</option>
-          <option>Select</option>
-          <option>Radio button</option>
-          <option>Checkbox</option>
-          <option>Boolean</option>
+          <option>{INPUT_FIELD}</option>
+          <option>{SELECT}</option>
+          <option>{RADIO}</option>
+          <option>{CHECKBOX}</option>
+          <option>{BOOLEAN}</option>
         </select>
       </div>
 

@@ -8,14 +8,40 @@ export default function DescriptionEditor({ value, setValue, disabled }) {
     if (setValue) setValue(content);
   };
 
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'color': [] }, { 'background': [] }],
+      ['clean']
+    ],
+  }
+
+  const formats = [
+    'header', 'size', 'font', 'align',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'script',
+    'color', 'background'
+  ]
+
+
   return (
-    <div className="border-t mt-5">
+    <div className="mt-5">
       <div className="mt-5 mb-5">
         <ReactQuill
           placeholder="Description"
           value={value}
           readOnly={disabled}
           theme={disabled ? "bubble" : "snow"}
+          modules={modules}
+          formats={formats}
           onChange={handleChange}
         />
       </div>

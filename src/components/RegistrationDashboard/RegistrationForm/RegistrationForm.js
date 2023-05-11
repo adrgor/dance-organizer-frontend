@@ -1,10 +1,9 @@
 import React from "react";
 import TopBar from "../../EventsPage/TopBar";
 import RegistrationInput from "./RegistrationInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ApiUrl from "../../../utils/ApiUrl";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
 
 export default function RegistrationForm() {
   const [searchParams] = useSearchParams()
@@ -18,7 +17,7 @@ export default function RegistrationForm() {
       options: [""],
       isRequired: true,
       description: "",
-    },
+    }
   ]);
 
   const addForm = () => {
@@ -54,7 +53,6 @@ export default function RegistrationForm() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    console.log(registerFormInputs)
     const requestBody = {
       inputs: registerFormInputs,
       eventId: parseInt(eventId)
@@ -104,11 +102,11 @@ export default function RegistrationForm() {
             value={"Placeholder for event name"}
           />
 
-          {registerFormInputs.length <= 0 && (
+          {registerFormInputs && registerFormInputs.length <= 0 && (
             <p className="text-2xl text-center">No inputs defined!</p>
           )}
 
-          {registerFormInputs.map((form, index) => {
+          {registerFormInputs && registerFormInputs.map((form, index) => {
             return (
               <RegistrationInput
                 input={registerFormInputs[index]}

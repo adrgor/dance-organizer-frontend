@@ -1,4 +1,5 @@
 import React from "react";
+import { DESCRIPTION, DROP_DOWN, EMAIL, INPUT_FIELD, MULTIPLE_CHOICE, PRODUCT, SINGLE_CHOICE, TICKET } from '../../../utils/RegistrationFormInputs';
 import DescriptionEditor from "../../EventDetails/DesriptionEditor";
 
 export default function RegistrationInput({
@@ -7,7 +8,7 @@ export default function RegistrationInput({
   input,
   setInput,
 }) {
-  const addOption = (e) => {
+  const addOption = () => {
     const optionsCopy = [...input.options, ""];
     const newInput = { ...input, options: optionsCopy };
     setInput(newInput);
@@ -36,7 +37,7 @@ export default function RegistrationInput({
     addToFormInputs(newInput);
   };
 
-  const handleIsRequiredChange = (e) => {
+  const handleIsRequiredChange = () => {
     const newInput = { ...input, isRequired: !input.isRequired };
     setInput(newInput);
     addToFormInputs(newInput);
@@ -56,22 +57,22 @@ export default function RegistrationInput({
           value={input.type}
           onChange={(e) => setInput({ ...input, type: e.target.value })}
         >
-          <option>Email</option>
-          <option>Ticket type</option>
-          <option>Product</option>
-          <option>Input field</option>
-          <option>Single choice</option>
-          <option>Multiple choice</option>
-          <option>Drop-down list</option>
-          <option>Description</option>
+          <option>{INPUT_FIELD}</option>
+          <option>{TICKET}</option>
+          <option>{PRODUCT}</option>
+          <option>{EMAIL}</option>
+          <option>{SINGLE_CHOICE}</option>
+          <option>{MULTIPLE_CHOICE}</option>
+          <option>{DROP_DOWN}</option>
+          <option>{DESCRIPTION}</option>
         </select>
       </div>
 
       <div className="w-full m-auto p-5 px-10">
-        {input.type != "Input field" &&
-          input.type != "Ticket type" &&
-          input.type != "Email" &&
-          input.type != "Description" &&
+        {input.type != INPUT_FIELD &&
+          input.type != TICKET &&
+          input.type != EMAIL &&
+          input.type != DESCRIPTION &&
           input.options.map((option, index) => {
             return (
               <>
@@ -120,13 +121,14 @@ export default function RegistrationInput({
             );
           })}
 
-        {input.type == "Description" ? (
+        {input.type === DESCRIPTION ? (
+          <span className='text-left'>
           <DescriptionEditor
             value={input.description}
             setValue={(newDescription) =>
               setInput({ ...input, description: newDescription })
             }
-          />
+          /></span>
         ) : (
           <label className="relative inline-flex items-center mb-5 mt-5 mr-10 cursor-pointer">
             <input

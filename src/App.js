@@ -1,16 +1,18 @@
 import ForgotPasswordPage from "./components/ForgotPasswordPage/ForgotPasswortPage";
-import RegisterPage from "./components/RegisterPage/RegisterPage";
 import LoginPage from "./components/LoginPage/LoginPage";
+import RegisterPage from "./components/RegisterPage/RegisterPage";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import EventsPage from "./components/EventsPage/EventsPage";
-import EventDetails from "./components/EventsPage/EventDetails";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AddEvent from "./components/EventDetails/AddEvent";
 import EditEvent from "./components/EventDetails/EditEvent";
-import RegistrationDashboard from "./components/RegistrationDashboard/RegistrationDashboard";
-import TicketPage from "./components/RegistrationDashboard/TicketsPage/TicketPage";
+import EventDetails from "./components/EventsPage/EventDetails";
+import EventsPage from "./components/EventsPage/EventsPage";
 import ProductsPage from "./components/RegistrationDashboard/ProductsPage/ProductsPage";
+import RegistrationDashboard from "./components/RegistrationDashboard/RegistrationDashboard";
 import RegistrationForm from "./components/RegistrationDashboard/RegistrationForm/RegistrationForm";
+import TicketPage from "./components/RegistrationDashboard/TicketsPage/TicketPage";
+import ClientRegistrationForm from "./components/ParticipantRegistrationForm/ParticipantRegistrationForm";
+import ParticipantRegistrationForm from "./components/ParticipantRegistrationForm/ParticipantRegistrationForm";
 
 function App() {
   return (
@@ -41,7 +43,14 @@ function App() {
             path="registration-dashboard/registration-form"
             element={<RegistrationForm />}
           />
-          <Route path="*" element={<Navigate replace to="/login" />} />
+          <Route 
+            path="register-for-event" 
+            element={<ParticipantRegistrationForm/>}
+          />
+          <Route 
+            path="*" 
+            element={<Navigate replace to="/login" />} 
+          />
         </Routes>
       </BrowserRouter>
     </div>

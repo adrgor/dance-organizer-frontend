@@ -1,4 +1,5 @@
 import React from "react";
+import { COUPLE, SOLO } from "../../../utils/ProductInputs";
 
 export default function AddTicketForm({ ticket, setTicket, removeTicket }) {
   return (
@@ -16,9 +17,9 @@ export default function AddTicketForm({ ticket, setTicket, removeTicket }) {
           value={ticket.type}
           onChange={(e) => setTicket({ ...ticket, type: e.target.value })}
         >
-          <option selected="selected" disabled></option>
-          <option>Solo ticket</option>
-          <option>Couple ticket</option>
+          <option selected disabled></option>
+          <option>{SOLO}</option>
+          <option>{COUPLE}</option>
         </select>
       </div>
 
