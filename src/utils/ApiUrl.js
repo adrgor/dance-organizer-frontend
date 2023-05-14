@@ -19,6 +19,9 @@ const ApiUrl = {
     TICKET: `${baseUrl}/api/registration-dashboard/ticket`,
     PRODUCT: `${baseUrl}/api/registration-dashboard/product`,
     FORM: `${baseUrl}/api/registration-dashboard/form`,
+
+    // Participant registraztion
+    PARTICIPANT_REGISTRATIONS: `${baseUrl}/api/participant-registrations`
 }
 
 module.exports = ApiUrl

@@ -53,6 +53,7 @@ export default function RegistrationForm() {
 
   const handleSave = (e) => {
     e.preventDefault();
+    console.log(registerFormInputs)
     const requestBody = {
       inputs: registerFormInputs,
       eventId: parseInt(eventId)

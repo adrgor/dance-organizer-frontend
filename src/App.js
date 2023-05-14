@@ -11,8 +11,8 @@ import ProductsPage from "./components/RegistrationDashboard/ProductsPage/Produc
 import RegistrationDashboard from "./components/RegistrationDashboard/RegistrationDashboard";
 import RegistrationForm from "./components/RegistrationDashboard/RegistrationForm/RegistrationForm";
 import TicketPage from "./components/RegistrationDashboard/TicketsPage/TicketPage";
-import ClientRegistrationForm from "./components/ParticipantRegistrationForm/ParticipantRegistrationForm";
 import ParticipantRegistrationForm from "./components/ParticipantRegistrationForm/ParticipantRegistrationForm";
+import ParticipantPage from "./components/Participants/ParticipantPage";
 
 function App() {
   return (
@@ -46,6 +46,10 @@ function App() {
           <Route 
             path="register-for-event" 
             element={<ParticipantRegistrationForm/>}
+          />
+          <Route
+            path="participants"
+            element={<ParticipantPage/>}
           />
           <Route 
             path="*" 

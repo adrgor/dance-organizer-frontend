@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import ApiUrl from "../../utils/ApiUrl";
 
 export default function RegistrationFormPreview() {
+  const [registerFormInputs, setRegisterFormInputs] = useState()
   const [mode, setMode] = useState("FOLDED");
   const [searchParams] = useSearchParams()
   const eventId = searchParams.get("eventId")
@@ -11,6 +13,23 @@ export default function RegistrationFormPreview() {
     if (mode == "FOLDED") setMode("UNFOLDED");
     else setMode("FOLDED");
   };
+
+  useEffect( () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    };
+
+    fetch(`${ApiUrl.FORM}?eventId=${eventId}`, requestOptions)
+    .then( (res) => res.json() )
+    .then( (data) => {
+      setRegisterFormInputs(data.inputs) 
+    })
+  }, [])
 
   return (
     <div onClick={handleFolding} className="relative border p-5 mt-5">
@@ -31,17 +50,43 @@ export default function RegistrationFormPreview() {
         Registration form
       </p>
       {mode == "UNFOLDED" && (
-        <>
-          <p className="my-5 text-xl">
-            You haven't created a registration form for this event yet
-          </p>
-          <a
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-            href={`/registration-dashboard/registration-form?eventId=${eventId}`}
-          >
-            Create registration form
-          </a>
-        </>
+        !registerFormInputs ? (
+          <>
+            <p className="my-5 text-xl">
+              You haven't created a registration form for this event yet
+            </p>
+            <a
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
+              href={`/registration-dashboard/registration-form?eventId=${eventId}`}
+            >
+              Create registration form
+            </a>
+          </>
+        ) : (
+          <div className="flex flex-col">
+            <div
+              className="w-[280px] my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
+              onClick={() => {navigator.clipboard.writeText(`localhost:3000/register-for-event?eventId=${eventId}`)}}
+            >
+              Copy registration link
+            </div>
+
+            <a
+              className="w-[280px] my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
+              href={`/register-for-event?eventId=${eventId}`}
+            >
+              Preview registration
+            </a>
+
+            <a
+              className="w-[280px] my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
+              href={`/registration-dashboard/registration-form?eventId=${eventId}`}
+            >
+              Edit registration
+            </a>
+          </div>
+        )
+        
       )}
     </div>
   );

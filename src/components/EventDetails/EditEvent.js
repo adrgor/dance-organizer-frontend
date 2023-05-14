@@ -49,8 +49,6 @@ export default function EditEvent() {
       eventName, startDate: date.startDate, endDate: date.endDate, country: country, city, description, eventType, danceStyles:selectedDanceStyles
     }
 
-    console.log(JSON.stringify(requestBody))
-
     const requestOptions = {
       method: 'PUT',
       headers: {
@@ -77,7 +75,6 @@ export default function EditEvent() {
     fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         setCountry(data.country)
         setCity(data.city)
         setEventName(data.name)

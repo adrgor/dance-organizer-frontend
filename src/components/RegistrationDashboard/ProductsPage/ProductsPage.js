@@ -32,7 +32,6 @@ export default function ProductsPage() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    console.log(products);
 
     const requestBody = {
       products,
