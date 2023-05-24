@@ -1,7 +1,6 @@
 import React from "react";
 import TopBar from "../EventsPage/TopBar";
 import TicketTypes from "./TicketTypes";
-import Products from "./Products";
 import RegistrationsPreview from "./RegistrationsPreview";
 import RegistrationFormPreview from "./RegistrationFormPreview";
 
@@ -16,7 +15,6 @@ export default function RegistrationDashboard() {
         </p>
         <RegistrationsPreview />
         <TicketTypes />
-        <Products />
         <RegistrationFormPreview />
       </div>
     </div>

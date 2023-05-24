@@ -1,14 +1,13 @@
 import React from 'react'
 import RegistrationFormInputs, {INPUT_FIELD, EMAIL} from '../../utils/RegistrationFormInputs'
 import { TICKET } from '../../utils/RegistrationFormInputs'
-import { PRODUCT } from '../../utils/RegistrationFormInputs'
 import { SINGLE_CHOICE } from '../../utils/RegistrationFormInputs'
 import { MULTIPLE_CHOICE } from '../../utils/RegistrationFormInputs'
 import { DROP_DOWN } from '../../utils/RegistrationFormInputs'
 import { DESCRIPTION } from '../../utils/RegistrationFormInputs'
 import DescriptionEditor from '../EventDetails/DesriptionEditor'
 
-export default function ParticipantInput({ index, type, question, options, description, tickets, products, isPartner, inputs, setInput, setRole }) {
+export default function ParticipantInput({ index, type, question, options, description, tickets, isPartner, inputs, setInput, setRole }) {
   return (
     <div className={`flex justify-around items-center mt-5`}>
       {type !== DESCRIPTION && <p className='text-xl w-1/3'>{question}</p>}
@@ -62,9 +61,6 @@ export default function ParticipantInput({ index, type, question, options, descr
                 <div>When you register with a partner, your partner will be assigned to the same ticket type as you with the opposite role</div>
             </div>
           )
-        else if (type == PRODUCT)
-          return <></>
-
         else if (type == SINGLE_CHOICE)
           return (
             <fieldset className='w-[50%] flex flex-col text-lg px-2 py-2 border-b focus:outline-none focus:border-b-black'>

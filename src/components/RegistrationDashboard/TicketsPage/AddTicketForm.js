@@ -1,5 +1,5 @@
 import React from "react";
-import { COUPLE, SOLO } from "../../../utils/ProductInputs";
+import { COUPLE, SOLO } from "../../../utils/TicketTypeInputs";
 
 export default function AddTicketForm({ ticket, setTicket, removeTicket }) {
   return (

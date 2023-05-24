@@ -1,5 +1,5 @@
 import React from "react";
-import { DESCRIPTION, DROP_DOWN, EMAIL, INPUT_FIELD, MULTIPLE_CHOICE, PRODUCT, SINGLE_CHOICE, TICKET } from '../../../utils/RegistrationFormInputs';
+import { DESCRIPTION, DROP_DOWN, EMAIL, INPUT_FIELD, MULTIPLE_CHOICE, SINGLE_CHOICE, TICKET } from '../../../utils/RegistrationFormInputs';
 import DescriptionEditor from "../../EventDetails/DesriptionEditor";
 
 export default function RegistrationInput({
@@ -59,7 +59,6 @@ export default function RegistrationInput({
         >
           <option>{INPUT_FIELD}</option>
           <option>{TICKET}</option>
-          <option>{PRODUCT}</option>
           <option>{EMAIL}</option>
           <option>{SINGLE_CHOICE}</option>
           <option>{MULTIPLE_CHOICE}</option>

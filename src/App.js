@@ -7,7 +7,6 @@ import AddEvent from "./components/EventDetails/AddEvent";
 import EditEvent from "./components/EventDetails/EditEvent";
 import EventDetails from "./components/EventsPage/EventDetails";
 import EventsPage from "./components/EventsPage/EventsPage";
-import ProductsPage from "./components/RegistrationDashboard/ProductsPage/ProductsPage";
 import RegistrationDashboard from "./components/RegistrationDashboard/RegistrationDashboard";
 import RegistrationForm from "./components/RegistrationDashboard/RegistrationForm/RegistrationForm";
 import TicketPage from "./components/RegistrationDashboard/TicketsPage/TicketPage";
@@ -34,10 +33,6 @@ function App() {
           <Route
             path="registration-dashboard/tickets"
             element={<TicketPage />}
-          />
-          <Route
-            path="registration-dashboard/products"
-            element={<ProductsPage />}
           />
           <Route
             path="registration-dashboard/registration-form"

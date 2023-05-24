@@ -10,7 +10,6 @@ export default function ParticipantRegistrationForm() {
   const [registrationForm, setRegistrationForm] = useState({
     inputs: [],
     tickets: [],
-    products: []
   })
   const [formInput, setFormInput] = useState({
     participant: [],
@@ -90,16 +89,12 @@ export default function ParticipantRegistrationForm() {
   
       fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
       .then( (res) => res.json() ),
-  
-      fetch(`${ApiUrl.PRODUCT}?eventId=${eventId}`, requestOptions)
-      .then( (res) => res.json() )
     ])
-    .then( ([formData, ticketData, productData]) => {
+    .then( ([formData, ticketData]) => {
       setRegistrationForm(prevState => ({
         ...prevState,
         inputs: formData.inputs,
         tickets: ticketData.tickets,
-        products: productData.products
       }))
       setFormInput({
         participant: formData.inputs.map(input => {
@@ -193,7 +188,7 @@ export default function ParticipantRegistrationForm() {
                 <ParticipantInput key={index} index={index} type={input.type}
                             question={input.question} options={input.options}
                             isRequired={input.isRequired} description={input.description}
-                            tickets={registrationForm.tickets} products={registrationForm.products}
+                            tickets={registrationForm.tickets}
                             inputs={formInput.participant} setInput={handleParticipantInputChange} setRole={handleTicketRoleChange}/>
             )
           })}
@@ -209,7 +204,7 @@ export default function ParticipantRegistrationForm() {
                   <ParticipantInput key={index} index={index} type={input.type}
                                question={input.question} options={input.options}
                                isRequired={input.isRequired} description={input.description}
-                               tickets={registrationForm.tickets} products={registrationForm.products}
+                               tickets={registrationForm.tickets}
                                isPartner inputs={formInput.partner} setInput={handlePartnerInputChange}/>
               )
             })}
