@@ -36,7 +36,7 @@ export default function DescriptionEditor({ value, setValue, disabled }) {
     <div className="mt-5">
       <div className="mt-5 mb-5">
         <ReactQuill
-          placeholder="Description"
+          placeholder=""
           value={value}
           readOnly={disabled}
           theme={disabled ? "bubble" : "snow"}

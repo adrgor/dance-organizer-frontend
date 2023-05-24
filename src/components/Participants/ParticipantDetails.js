@@ -1,11 +1,23 @@
 import React, { useState } from 'react'
 import { ACCEPTED, CANCELLED, DESCRIPTION, MULTIPLE_CHOICE, PAID, PARTIALLY_PAID, REGISTERED, TICKET, WAITING_LIST } from '../../utils/RegistrationFormInputs'
+import { useSearchParams } from 'react-router-dom'
+import ApiUrl from '../../utils/ApiUrl'
+import { useEffect } from 'react'
 
-export default function ParticipantDetails({ participant, formPattern, tickets }) {
+export default function ParticipantDetails({ participant, formPattern, tickets, isChecked, handleChecked }) {
 
+    const eventId = useSearchParams()[0].get("eventId")
     const [participantState, setParticipantState] = useState(participant.formInputs)
     const [status, setStatus] = useState(participant.status)
     const [amountPaid, setAmountPaid] = useState(participant.amountPaid)
+    const [isCheckedState, setCheckedState] = useState(false)
+
+    useEffect(() => {
+        setParticipantState(participant.formInputs)
+        setStatus(participant.status)
+        setAmountPaid(participant.amountPaid)
+        setCheckedState(isChecked)
+    }, [participant, isChecked])
 
     const [isDisabled, setDiabled] = useState(true)
 
@@ -21,9 +33,52 @@ export default function ParticipantDetails({ participant, formPattern, tickets }
         }
     }
 
+    const handleSave = () => {
+        if(!isDisabled) {
+            const participantStateCopy = {...participantState}
+            const requestBody = {
+                eventId: parseInt(eventId),
+                participantId: participant.participantId,
+                partnerId: participant.partnerId,
+                participantData: participantState,
+                amountPaid,
+                status
+            }
+
+            const requestOptions = {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                },
+                body: JSON.stringify(requestBody)
+            };
+            fetch(`${ApiUrl.PARTICIPANT_REGISTRATIONS}?eventId=${eventId}`, requestOptions)
+        }
+        setDiabled(!isDisabled)
+    }
+
+    const handleRemove = () => {
+        const requestOptions = {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            },
+            body: JSON.stringify([participant.participantId])
+        };
+
+        fetch(`${ApiUrl.PARTICIPANT_REGISTRATIONS}?eventId=${eventId}`, requestOptions)
+        window.location.reload()
+    }
+
   return (
     <tr>
-        <td className='p-5 h-full'><input type='checkbox'/></td>
+        <td className='p-5'>
+            <input type='checkbox' checked={isCheckedState} onChange={() => handleChecked(participant.participantId)}/>
+        </td>
         <td className='p-5'>{participant.participantId}</td>
         <td className='p-5'>{participant.partnerId ? participant.partnerId : "No partner"}</td>
 
@@ -41,7 +96,7 @@ export default function ParticipantDetails({ participant, formPattern, tickets }
                             </select>
                         </td>
                         <td>
-                            <select onChange={e => setParticipantState(prevState => ({...prevState, "Role": e.target.value}))}
+                            <select onChange={e => setParticipantState(prevState => ({...prevState, "Role": [e.target.value]}))}
                                     className='text-center' disabled={isDisabled}>
                                 <option selected={participantState["Role"] == 'Leader'}>Leader</option>
                                 <option selected={participantState["Role"] == 'Follower'}>Follower</option>
@@ -54,11 +109,12 @@ export default function ParticipantDetails({ participant, formPattern, tickets }
                 return (
                     <td className='py-5 pl-1'>
                         {input.options.map(option => {
-                            return <div className='text-left'>
+                            return <div className='text-left ml-6 w-fit'>
                                 <input id={`${participant.participantId}-${input.question}-${option} input.question`} type='checkbox' 
                                         checked={participantState[input.question].includes(option)}
                                         onChange={() => handleMultipleChoiceChange(input.question, option)}
-                                        disabled={isDisabled}/>
+                                        disabled={isDisabled}
+                                        className='w-fit'/>
                                 <label for={`${participant.participantId}-${input.question}-${option} input.question`}
                                        className='ml-1'>{option}</label>
                             </div>
@@ -69,7 +125,7 @@ export default function ParticipantDetails({ participant, formPattern, tickets }
 
             return <td>{
                 participant.formInputs[input.question].map(answer => {
-                    return <input value={participantState[input.question]} onChange={e => setParticipantState(prevState => ({...prevState, [input.question]: e.target.value}))} 
+                    return <input value={participantState[input.question]} onChange={e => setParticipantState(prevState => ({...prevState, [input.question]: [e.target.value]}))} 
                                   className='text-center' disabled={isDisabled}/>
                 })
             }</td>
@@ -89,8 +145,8 @@ export default function ParticipantDetails({ participant, formPattern, tickets }
         <td className='p-5'>
             <input value={amountPaid} onChange={(e) => setAmountPaid(e.target.value)} type='number' className='text-center' disabled={isDisabled}/>
         </td>
-        <td className='p-5 border-x w-20' onClick={() => setDiabled(!isDisabled)}>{isDisabled ? "EDIT" : "SAVE"}</td>
-        <td className='p-5 border-r' onClick={() => console.log(status)}>REMOVE</td>
+        <td className='p-5 border-x w-20' onClick={handleSave}>{isDisabled ? "EDIT" : "SAVE"}</td>
+        <td className='p-5 border-r' onClick={handleRemove}>REMOVE</td>
     </tr>
   )
 }

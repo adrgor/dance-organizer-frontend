@@ -1,13 +1,34 @@
 import React from "react";
 import { useState } from "react";
+import ApiUrl from "../../utils/ApiUrl";
+import { useSearchParams } from "react-router-dom";
 
 export default function RegistrationsPreview() {
+  const [registrations, setRegistrations] = useState([])
+
   const [mode, setMode] = useState("FOLDED");
 
   const handleFolding = () => {
     if (mode == "FOLDED") setMode("UNFOLDED");
     else setMode("FOLDED");
   };
+
+  const eventId = useSearchParams()[0].get("eventId")
+
+  useState(() => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      }
+    };
+    
+    fetch(`${ApiUrl.PARTICIPANT_REGISTRATIONS}?eventId=${eventId}`, requestOptions)
+    .then(response => response.json())
+    .then(data => setRegistrations(data))
+  },[])
 
   return (
     <div onClick={handleFolding} className="relative border p-5 mt-5">
@@ -26,6 +47,14 @@ export default function RegistrationsPreview() {
       </svg>
       <p className="text-4xl font-bold mb-2 w-fit border-b">Registrations</p>
       {mode == "UNFOLDED" && (
+        registrations.length > 0 ?
+        <a
+              className="w-[280px] block mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
+              href={`/participants?eventId=${eventId}`}
+            >
+              Preview registrations
+        </a>
+        :
         <p className="my-5 text-xl">No registrations yet</p>
       )}
     </div>
