@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ErrorPopUp from '../ErrorPopUp'
+import ErrorPopUp from '../GeneralUseComponents/ErrorPopUp'
 import InfoBox from './InfoBox'
 import LoginForm from './LoginForm'
 

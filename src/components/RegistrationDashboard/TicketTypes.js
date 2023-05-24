@@ -1,34 +1,13 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import ApiUrl from "../../utils/ApiUrl";
 
-export default function TicketTypes() {
-  const [tickets, setTickets] = useState([])
+export default function TicketTypes({ tickets, eventId }) {
 
   const [mode, setMode] = useState("FOLDED");
-  const [searchParams] = useSearchParams()
-  const eventId = searchParams.get("eventId")
-
   const handleFolding = () => {
     if (mode == "FOLDED") setMode("UNFOLDED");
     else setMode("FOLDED");
   };
-
-  useEffect(()=> {
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    };
-
-    fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
-    .then( (res) => res.json() )
-    .then( (data) => setTickets(data.tickets) )
-  }, [])
 
   return (
     <div onClick={handleFolding} className="relative border p-5 mt-5">

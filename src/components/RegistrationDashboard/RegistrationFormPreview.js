@@ -1,35 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import ApiUrl from "../../utils/ApiUrl";
 
-export default function RegistrationFormPreview() {
-  const [registerFormInputs, setRegisterFormInputs] = useState()
+export default function RegistrationFormPreview({ registerFormInputs, eventId }) {
   const [mode, setMode] = useState("FOLDED");
-  const [searchParams] = useSearchParams()
-  const eventId = searchParams.get("eventId")
 
   const handleFolding = () => {
     if (mode == "FOLDED") setMode("UNFOLDED");
     else setMode("FOLDED");
   };
-
-  useEffect( () => {
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    };
-
-    fetch(`${ApiUrl.FORM}?eventId=${eventId}`, requestOptions)
-    .then( (res) => res.json() )
-    .then( (data) => {
-      setRegisterFormInputs(data.inputs) 
-    })
-  }, [])
 
   return (
     <div onClick={handleFolding} className="relative border p-5 mt-5">

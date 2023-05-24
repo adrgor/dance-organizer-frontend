@@ -3,7 +3,7 @@ import TopBar from './TopBar'
 import DescriptionEditor from '../EventDetails/DesriptionEditor'
 import { useNavigate, useParams } from 'react-router-dom'
 import ApiUrl from '../../utils/ApiUrl'
-import TransparentPopUp from '../TransparentPopUp'
+import TransparentPopUp from '../GeneralUseComponents/TransparentPopUp'
 
 export default function EventDetails() {
 

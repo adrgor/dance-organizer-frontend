@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {validateUsername, validateEmail, validatePassword} from '../../utils/FormUtils'
 import ApiUrl from '../../utils/ApiUrl'
 import HttpCode from '../../utils/HttpCode'
-import ErrorPopUp from '../ErrorPopUp'
+import ErrorPopUp from '../GeneralUseComponents/ErrorPopUp'
 
 export default function RegisterForm({registerStatus, setRegisterStatus}) {
   const [username, setUsername] = useState('')
