@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import ApiUrl from '../../utils/ApiUrl';
 import { useSearchParams } from 'react-router-dom';
-import TopBar from '../EventsPage/TopBar';
+import TopBar from '../GeneralUseComponents/TopBar';
 import ParticipantDetails from './ParticipantDetails';
 import { ACCEPTED, CANCELLED, DESCRIPTION, MULTIPLE_CHOICE, PAID, PARTIALLY_PAID, REGISTERED, TICKET, WAITING_LIST } from '../../utils/RegistrationFormInputs';
 import useOutsideClick from '../../hooks/useOutsideClick';

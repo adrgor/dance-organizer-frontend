@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import TopBar from '../EventsPage/TopBar'
+import TopBar from '../GeneralUseComponents/TopBar'
 import countries from '../../countries.json'
 import Datepicker from 'react-tailwindcss-datepicker'
 import DescriptionEditor from './DesriptionEditor'

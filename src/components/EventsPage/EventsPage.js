@@ -1,6 +1,6 @@
 import React from 'react'
 import EventsList from './EventsList'
-import TopBar from './TopBar'
+import TopBar from '../GeneralUseComponents/TopBar'
 
 export default function EventsPage({isMyList}) {
   return (

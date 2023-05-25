@@ -1,5 +1,5 @@
 import React from "react";
-import TopBar from "../../EventsPage/TopBar";
+import TopBar from "../../GeneralUseComponents/TopBar";
 import RegistrationInput from "./RegistrationInput";
 import { useState, useEffect } from "react";
 import ApiUrl from "../../../utils/ApiUrl";

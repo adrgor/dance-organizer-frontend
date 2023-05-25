@@ -5,6 +5,7 @@ import ApiUrl from '../../utils/ApiUrl'
 import Event from './Event'
 import FilterBar from '../EventDetails/FilterBar'
 import useOutsideClick from '../../hooks/useOutsideClick'
+import LoadingSpinner from '../GeneralUseComponents/LoadingSpinner'
 
 export default function EventsList({isMyList}) {
 
@@ -31,6 +32,7 @@ export default function EventsList({isMyList}) {
     const [searchBarName, setSearchBarName] = useState('')
     const [lastPage, setLastPage] = useState(1);
     const [isFilterBarOpen, setIsFilterBarOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true)
 
     const [searchParams] = useSearchParams({
         events_per_page: 10,
@@ -93,6 +95,7 @@ export default function EventsList({isMyList}) {
 
         setEvents(eventsData);
         setLastPage(lastPageData);
+        setIsLoading(false)
     }
 
     fetchData();
@@ -119,7 +122,6 @@ export default function EventsList({isMyList}) {
             </div>
             {isFilterBarOpen && <FilterBar handleNavigate={handleNavigate} setIsFilterBarOpen={setIsFilterBarOpen}/>}
         </div>
-
         <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -140,9 +142,13 @@ export default function EventsList({isMyList}) {
                     </th>
                 </tr>
             </thead>
-
             <tbody>
-                {events.map((event) => {
+                {isLoading ? 
+                <tr class="bg-white">
+                    <td colSpan={5} className='p-5'><LoadingSpinner/></td>
+                </tr>
+                :
+                events.map((event) => {
                     return <Event eventDetails={event}/>
                 })}
             </tbody>

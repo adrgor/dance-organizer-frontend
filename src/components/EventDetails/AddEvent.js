@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import TopBar from "../EventsPage/TopBar";
+import TopBar from "../GeneralUseComponents/TopBar";
 import countries from "../../countries.json";
 import Datepicker from "react-tailwindcss-datepicker";
 import DescriptionEditor from "./DesriptionEditor";
@@ -8,8 +8,10 @@ import danceStyles from "../../utils/DanceStyles";
 import ItemsSelect from "../FormComponents/ItemsSelect";
 import ApiUrl from "../../utils/ApiUrl";
 import eventTypes from "../../utils/EventTypes";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEvent() {
+  const navigate = useNavigate()
   const [eventName, setEventName] = useState();
   const [date, setDate] = useState({
     startDate: {},
@@ -66,6 +68,7 @@ export default function AddEvent() {
     };
 
     fetch(ApiUrl.EVENT_RESOURCE, requestOptions);
+    navigate("/my-events")
   };
 
   return (
@@ -144,12 +147,12 @@ export default function AddEvent() {
           />
 
           <div className="flex justify-between">
-            <button
+            <a
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-              onClick={() => {}}
+              href={"/events"}
             >
-              Preview
-            </button>
+              Back
+            </a>
             <div>
               <button
                 className="mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
@@ -159,7 +162,7 @@ export default function AddEvent() {
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-                onClick={() => {}}
+                onClick={handlePublish}
               >
                 Save as draft
               </button>

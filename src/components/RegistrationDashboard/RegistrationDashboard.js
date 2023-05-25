@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import TopBar from "../EventsPage/TopBar";
+import TopBar from "../GeneralUseComponents/TopBar";
 import TicketTypes from "./TicketTypes";
 import RegistrationsPreview from "./RegistrationsPreview";
 import RegistrationFormPreview from "./RegistrationFormPreview";
