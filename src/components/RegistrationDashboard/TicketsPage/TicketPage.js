@@ -115,7 +115,8 @@ export default function TicketPage() {
               </div>
 
               <div className="w-full flex justify-between">
-                <button className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline">
+                <button onClick={() => navigate(`/registration-dashboard?eventId=${eventId}`)} 
+                        className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline">
                   Discard
                 </button>
                 <button

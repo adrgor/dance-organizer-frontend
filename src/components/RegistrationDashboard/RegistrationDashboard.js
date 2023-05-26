@@ -35,10 +35,10 @@ export default function RegistrationDashboard() {
         .then( (res) => res.json() ),
     
         fetch(`${ApiUrl.FORM}?eventId=${eventId}`, requestOptions)
-        .then( (res) => res.json() ),
+        .then( (res) => res.text().length ? res.json() : {} ),
 
         fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
-        .then( (res) => res.json() ),
+        .then( (res) => res.text().length ? res.json() : {tickets: []} ),
     
       ]).then( ([eventData, participantsData, formInputData, ticketData]) => {
         setEventName(eventData.name)

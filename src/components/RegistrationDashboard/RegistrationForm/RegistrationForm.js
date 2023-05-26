@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import ApiUrl from "../../../utils/ApiUrl";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import LoadingSpinner from "../../GeneralUseComponents/LoadingSpinner";
+import validateRegistrationForm from "../../../utils/ValidateRegistrationForm";
+import ErrorPopUp from "../../GeneralUseComponents/ErrorPopUp";
 
 export default function RegistrationForm() {
   const [searchParams] = useSearchParams()
@@ -12,6 +14,7 @@ export default function RegistrationForm() {
   const navigate = useNavigate()
   const [eventName, setEventName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState("")
 
   const [registerFormInputs, setRegisterFormInputs] = useState([
     {
@@ -56,7 +59,12 @@ export default function RegistrationForm() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    console.log(registerFormInputs)
+    let message = validateRegistrationForm(registerFormInputs)
+    if (message) {
+      setErrorMessage(message)
+      return
+    }
+
     const requestBody = {
       inputs: registerFormInputs,
       eventId: parseInt(eventId)
@@ -91,7 +99,7 @@ export default function RegistrationForm() {
       .then( (res) => res.json() ),
   
       fetch(`${ApiUrl.FORM}?eventId=${eventId}`, requestOptions)
-      .then( (res) => res.json() ),
+      .then( (res) => res.text().length ? res.json() : {inputs: []} ),
   
     ]).then( ([eventData, formInputData]) => {
       setEventName(eventData.name)
@@ -105,8 +113,11 @@ export default function RegistrationForm() {
       <TopBar />
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="w-[800px] bg-white m-auto rounded-sm mt-5 p-5"
+        className="w-[800px] bg-white m-auto rounded-sm mt-5 p-5 relative"
       >
+        <div className="w-full absolute -top-5 left-5">
+          {errorMessage && <ErrorPopUp errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>}
+        </div>
         {isLoading ? 
           <LoadingSpinner/>
           :
@@ -142,7 +153,8 @@ export default function RegistrationForm() {
             </div>
 
             <div className="w-full flex justify-between">
-              <button className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline">
+              <button className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => navigate(`/registration-dashboard?eventId=${eventId}`)}>
                 Discard
               </button>
               <button

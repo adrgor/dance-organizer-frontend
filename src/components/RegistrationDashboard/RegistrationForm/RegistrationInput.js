@@ -38,9 +38,11 @@ export default function RegistrationInput({
   };
 
   const handleIsRequiredChange = () => {
-    const newInput = { ...input, isRequired: !input.isRequired };
-    setInput(newInput);
-    addToFormInputs(newInput);
+    if(input.type !== EMAIL) {
+      const newInput = { ...input, isRequired: !input.isRequired };
+      setInput(newInput);
+      addToFormInputs(newInput);
+    }
   };
 
   return (
@@ -55,7 +57,14 @@ export default function RegistrationInput({
         <select
           className="w-[40%] text-lg px-2 py-2 border focus:outline-none focus:border-black"
           value={input.type}
-          onChange={(e) => setInput({ ...input, type: e.target.value })}
+          onChange={(e) => {
+            let inputCopy = {...input}
+            inputCopy.type = e.target.value
+            if(e.target.value === EMAIL) {
+              inputCopy.isRequired = true
+            }
+            setInput(inputCopy)
+          }}
         >
           <option>{INPUT_FIELD}</option>
           <option>{TICKET}</option>
