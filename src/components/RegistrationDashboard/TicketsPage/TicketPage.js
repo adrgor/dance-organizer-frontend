@@ -51,8 +51,9 @@ export default function TicketPage() {
       body: JSON.stringify(requestBody),
     };
 
-    fetch(ApiUrl.TICKET, requestOptions);
-    navigate(`/registration-dashboard?eventId=${eventId}`)
+    fetch(ApiUrl.TICKET, requestOptions)
+    .then(res => navigate(`/registration-dashboard?eventId=${eventId}`))
+    
   };
 
   useEffect(()=> {
@@ -67,7 +68,8 @@ export default function TicketPage() {
 
     Promise.all([
       fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
-      .then( (res) => res.text().length ? res.json() : {tickets: []} ),
+      .then( (res) => res.json() )
+      .catch((error) => ( {tickets: []})),
   
       fetch(`${ApiUrl.EVENT_RESOURCE}/${eventId}`, requestOptions)
       .then( (res) => res.json() )

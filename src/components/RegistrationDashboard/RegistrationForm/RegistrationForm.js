@@ -80,8 +80,8 @@ export default function RegistrationForm() {
       body: JSON.stringify(requestBody),
     };
 
-    fetch(ApiUrl.FORM, requestOptions);
-    navigate(`/registration-dashboard?eventId=${eventId}`)
+    fetch(ApiUrl.FORM, requestOptions)
+    .then(res => navigate(`/registration-dashboard?eventId=${eventId}`))
   };
 
   useEffect( () => {
@@ -96,12 +96,15 @@ export default function RegistrationForm() {
 
     Promise.all([
       fetch(`${ApiUrl.EVENT_RESOURCE}/${eventId}`, requestOptions)
-      .then( (res) => res.json() ),
+      .then( (res) => res.json() )
+      .catch((error) => {}),
   
       fetch(`${ApiUrl.FORM}?eventId=${eventId}`, requestOptions)
-      .then( (res) => res.text().length ? res.json() : {inputs: []} ),
+      .then( (res) => res.json() )
+      .catch((error) => ({inputs: []}))
   
     ]).then( ([eventData, formInputData]) => {
+      console.log(formInputData)
       setEventName(eventData.name)
       setRegisterFormInputs(formInputData.inputs)
       setIsLoading(false)

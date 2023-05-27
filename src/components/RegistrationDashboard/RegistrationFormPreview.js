@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 
 export default function RegistrationFormPreview({ registerFormInputs, eventId }) {
   const [mode, setMode] = useState("FOLDED");
@@ -29,7 +28,7 @@ export default function RegistrationFormPreview({ registerFormInputs, eventId })
         Registration form
       </p>
       {mode == "UNFOLDED" && (
-        !registerFormInputs ? (
+        registerFormInputs < 1 ? (
           <>
             <p className="my-5 text-xl">
               You haven't created a registration form for this event yet
