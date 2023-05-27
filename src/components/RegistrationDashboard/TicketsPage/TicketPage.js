@@ -67,7 +67,7 @@ export default function TicketPage() {
 
     Promise.all([
       fetch(`${ApiUrl.TICKET}?eventId=${eventId}`, requestOptions)
-      .then( (res) => res.json() ),
+      .then( (res) => res.text().length ? res.json() : {tickets: []} ),
   
       fetch(`${ApiUrl.EVENT_RESOURCE}/${eventId}`, requestOptions)
       .then( (res) => res.json() )

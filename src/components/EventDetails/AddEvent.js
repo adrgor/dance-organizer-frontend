@@ -6,22 +6,25 @@ import Datepicker from "react-tailwindcss-datepicker";
 import DescriptionEditor from "./DesriptionEditor";
 import danceStyles from "../../utils/DanceStyles";
 import ItemsSelect from "../FormComponents/ItemsSelect";
-import ApiUrl from "../../utils/ApiUrl";
 import eventTypes from "../../utils/EventTypes";
 import { useNavigate } from "react-router-dom";
+import validateEventDetails from "../../utils/ValidateEventDetails";
+import ErrorPopUp from "../GeneralUseComponents/ErrorPopUp";
+import ApiUrl from "../../utils/ApiUrl";
 
 export default function AddEvent() {
   const navigate = useNavigate()
-  const [eventName, setEventName] = useState();
+  const [eventName, setEventName] = useState("");
   const [date, setDate] = useState({
     startDate: {},
     endDate: {},
   });
-  const [country, setCountry] = useState();
-  const [city, setCity] = useState();
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
   const [eventType, setEventType] = useState("Select event type");
   const [selectedDanceStyles, setSelectedDanceStyles] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -57,6 +60,12 @@ export default function AddEvent() {
       danceStyles: selectedDanceStyles,
     };
 
+    const message = validateEventDetails(requestBody)
+    if(message) {
+      setErrorMessage(message)
+      return
+    }
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -76,6 +85,9 @@ export default function AddEvent() {
       <TopBar />
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-auto mt-5 w-10/12">
+        <div className="ml-5">
+          {errorMessage && <ErrorPopUp errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>}
+        </div>
         <form className="min-h-[80%] bg-white p-5 flex flex-col">
           <div className="flex items-center justify-between">
             <input
