@@ -52,8 +52,9 @@ export default function RegistrationFormPreview({ registerFormInputs, eventId })
         <p className="text-4xl font-bold mb-2 w-fit border-b">
           Registration form
         </p>
+        {console.log(registerFormInputs)}
         {mode == "UNFOLDED" && (
-          registerFormInputs.input < 1 ? (
+          registerFormInputs.inputs.length < 1 ? (
             <>
               <p className="my-5 text-xl">
                 You haven't created a registration form for this event yet

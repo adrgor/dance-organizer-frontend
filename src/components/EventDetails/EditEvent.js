@@ -8,12 +8,13 @@ import danceStyles from '../../utils/DanceStyles'
 import ItemsSelect from '../FormComponents/ItemsSelect'
 import ApiUrl from '../../utils/ApiUrl'
 import eventTypes from '../../utils/EventTypes'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import validateEventDetails from '../../utils/ValidateEventDetails'
 import ErrorPopUp from '../GeneralUseComponents/ErrorPopUp'
 
 export default function EditEvent() {
 
+  const navigate = useNavigate()
   const { id } = useParams()
   const [eventName, setEventName] = useState('')
   const [date, setDate] = useState({
@@ -45,11 +46,19 @@ export default function EditEvent() {
     )
   }
 
-  const handlePublish = (e) => {
+  const handlePublish = (e, status) => {
     e.preventDefault()
 
     const requestBody = {
-      eventName, startDate: date.startDate, endDate: date.endDate, country: country, city, description, eventType, danceStyles:selectedDanceStyles
+      eventName, 
+      startDate: date.startDate, 
+      endDate: date.endDate, 
+      country: country, 
+      city, 
+      description, 
+      eventType, 
+      danceStyles: selectedDanceStyles,
+      status
     }
 
     const message = validateEventDetails(requestBody)
@@ -69,6 +78,7 @@ export default function EditEvent() {
     }
 
     fetch(`${ApiUrl.EDIT_EVENT}/${id}`, requestOptions)
+    .then(res => navigate("/my-events"))
   }
 
   useEffect(() => {
@@ -155,16 +165,16 @@ export default function EditEvent() {
 
           <div className='flex justify-between'>
               <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'
-                      onClick={()=>{}}>
+                      onClick={()=>{navigate("/my-events")}}>
                 Back
               </button>
             <div>
               <button class='mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'
-                      onClick={handlePublish}>
+                      onClick={e => handlePublish(e, "DRAFT")}>
                 Save as draft
               </button>
               <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'
-                      onClick={()=>{}}>
+                      onClick={e => handlePublish(e, "PUBLISHED")}>
                 Save and publish
               </button>
             </div>

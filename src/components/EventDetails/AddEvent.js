@@ -16,8 +16,8 @@ export default function AddEvent() {
   const navigate = useNavigate()
   const [eventName, setEventName] = useState("");
   const [date, setDate] = useState({
-    startDate: {},
-    endDate: {},
+    // startDate: {},
+    // endDate: {},
   });
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -53,14 +53,13 @@ export default function AddEvent() {
       eventName,
       startDate: date.startDate,
       endDate: date.endDate,
-      country: country.name,
+      country: country.name ? country.name : "",
       city,
       description,
       eventType,
       danceStyles: selectedDanceStyles,
       status
     };
-
     const message = validateEventDetails(requestBody)
     if(message) {
       setErrorMessage(message)

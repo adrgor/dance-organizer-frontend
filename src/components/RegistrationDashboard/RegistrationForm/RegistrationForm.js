@@ -104,7 +104,6 @@ export default function RegistrationForm() {
       .catch((error) => ({inputs: []}))
   
     ]).then( ([eventData, formInputData]) => {
-      console.log(formInputData)
       setEventName(eventData.name)
       setRegisterFormInputs(formInputData.inputs)
       setIsLoading(false)

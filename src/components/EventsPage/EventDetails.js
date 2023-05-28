@@ -47,7 +47,7 @@ export default function EventDetails() {
     }
 
     fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
-    navigate("/my-events")
+    .then(res => navigate("/my-events"))
   }
 
   const publishEvent = () => {
@@ -79,7 +79,8 @@ export default function EventDetails() {
       .then(response => response.json()),
 
       fetch(`${ApiUrl.FORM}?eventId=${id}`, requestOptions)
-      .then(response => response.json()),
+      .then(response => response.json())
+      .catch(err => ({isOpen: false}))
     ]).then( ([eventData, formData]) => {
       setEventDetails(eventData)
       setOwned(eventData.owned)

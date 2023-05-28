@@ -20,8 +20,8 @@ export default function Event({eventDetails}) {
       </td>
 
       <td class="px-6 py-4">
-          <p>{`From ${startYear}/${startMonth}/${startDate}`}</p>
-          <p>{`To ${endYear}/${endMonth}/${endDate}`}</p>
+          {(startingDate > new Date(1970, 1, 1)) && <p>{`From ${startYear}/${startMonth}/${startDate}`}</p>}
+          {endingDate > new Date(1970, 1, 1) && <p>{`To ${endYear}/${endMonth}/${endDate}`}</p>}
       </td>
 
       <td class="px-6 py-4 overflow-hidden">
