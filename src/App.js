@@ -12,6 +12,7 @@ import RegistrationForm from "./components/RegistrationDashboard/RegistrationFor
 import TicketPage from "./components/RegistrationDashboard/TicketsPage/TicketPage";
 import ParticipantRegistrationForm from "./components/ParticipantRegistrationForm/ParticipantRegistrationForm";
 import ParticipantPage from "./components/Participants/ParticipantPage";
+import RegistrationConfirmed from "./components/ParticipantRegistrationForm/RegistrationConfirmed";
 
 function App() {
   return (
@@ -46,6 +47,9 @@ function App() {
             path="participants"
             element={<ParticipantPage/>}
           />
+          <Route
+            path="registration-confirmed"
+            element={<RegistrationConfirmed/>}/>
           <Route 
             path="*" 
             element={<Navigate replace to="/login" />} 

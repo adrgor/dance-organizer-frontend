@@ -71,7 +71,8 @@ export default function ParticipantDetails({ participant, formPattern, tickets, 
         };
 
         fetch(`${ApiUrl.PARTICIPANT_REGISTRATIONS}?eventId=${eventId}`, requestOptions)
-        window.location.reload()
+        .then(res => window.location.reload())
+        
     }
 
   return (

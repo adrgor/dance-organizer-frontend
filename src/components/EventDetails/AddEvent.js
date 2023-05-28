@@ -46,7 +46,7 @@ export default function AddEvent() {
     );
   };
 
-  const handlePublish = (e) => {
+  const handlePublish = (e, status) => {
     e.preventDefault();
 
     const requestBody = {
@@ -58,6 +58,7 @@ export default function AddEvent() {
       description,
       eventType,
       danceStyles: selectedDanceStyles,
+      status
     };
 
     const message = validateEventDetails(requestBody)
@@ -76,8 +77,8 @@ export default function AddEvent() {
       body: JSON.stringify(requestBody),
     };
 
-    fetch(ApiUrl.EVENT_RESOURCE, requestOptions);
-    navigate("/my-events")
+    fetch(ApiUrl.EVENT_RESOURCE, requestOptions)
+    .then(res => navigate("/my-events"))
   };
 
   return (
@@ -168,13 +169,13 @@ export default function AddEvent() {
             <div>
               <button
                 className="mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-                onClick={handlePublish}
+                onClick={(e) => handlePublish(e, "PUBLISHED")}
               >
                 Publish
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline"
-                onClick={handlePublish}
+                onClick={(e) => handlePublish(e, "DRAFT")}
               >
                 Save as draft
               </button>

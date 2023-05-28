@@ -45,7 +45,7 @@ export default function RegistrationDashboard() {
       ]).then( ([eventData, participantsData, formInputData, ticketData]) => {
         setEventName(eventData.name)
         setParticipants(participantsData)
-        setInputForms(formInputData.inputs)
+        setInputForms(formInputData)
         setTickets(ticketData.tickets)
         setIsLoading(false)
       })

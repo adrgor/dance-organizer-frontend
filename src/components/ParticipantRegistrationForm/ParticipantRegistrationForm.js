@@ -2,13 +2,14 @@ import React from 'react'
 import ParticipantInput from './ParticipantInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import ApiUrl from '../../utils/ApiUrl'
 import { DESCRIPTION, MULTIPLE_CHOICE, TICKET } from '../../utils/RegistrationFormInputs'
 import LoadingSpinner from '../GeneralUseComponents/LoadingSpinner'
 
 export default function ParticipantRegistrationForm() {
   const eventId = useSearchParams()[0].get("eventId")
+  const navigate = useNavigate()
 
   const [isPartnerRegistration, setPartnerRegistration] = useState(false)
   const [eventName, setEventName] = useState('')
@@ -17,6 +18,7 @@ export default function ParticipantRegistrationForm() {
   const [registrationForm, setRegistrationForm] = useState({
     inputs: [],
     tickets: [],
+    isOpen: false
   })
   const [formInput, setFormInput] = useState({
     participant: [],
@@ -100,6 +102,7 @@ export default function ParticipantRegistrationForm() {
         ...prevState,
         inputs: formData.inputs,
         tickets: ticketData.tickets,
+        isOpen: formData.isOpen
       }))
 
       setFormInput({
@@ -172,7 +175,6 @@ export default function ParticipantRegistrationForm() {
       participant: formInputCopy.participant,
       partner: isPartnerRegistration ? formInputCopy.partner : []
     };
-    console.log(requestBody)
 
     const requestOptions = {
       method: "POST",
@@ -183,6 +185,7 @@ export default function ParticipantRegistrationForm() {
       body: JSON.stringify(requestBody),
     };
     fetch(ApiUrl.PARTICIPANT_REGISTRATIONS, requestOptions);
+    navigate("/registration-confirmed")
   } 
 
   
@@ -225,11 +228,18 @@ export default function ParticipantRegistrationForm() {
             }
             
             <div className='text-right border-t mt-5'>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold m-5 py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline justify-self-end"
-                onClick={handleSubmit}>
-                Submit registration
-              </button>
+              {registrationForm.isOpen ? 
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold m-5 py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline justify-self-end"
+                  onClick={handleSubmit}>
+                  Submit registration 
+                </button>
+                :
+                <div className="inline-block bg-gray-400 text-white font-bold m-5 py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline justify-self-end">
+                  Submit registration 
+                </div>
+              }
+              
             </div>
           </form>}
     </div>

@@ -16,6 +16,7 @@ export default function EventDetails() {
   const [popUpText, setPopUpText] = useState("")
   const [acceptFunction, setAcceptFunction] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [isRegistrationOpen, setRegistrationOpen] = useState(false)
 
   const startingDate = new Date(eventDetails.startingDate)
   const endingDate = new Date(eventDetails.endingDate)
@@ -72,14 +73,20 @@ export default function EventDetails() {
             'Authorization': `Bearer ${localStorage.getItem("jwt")}`
         },
     }
-    fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
-    .then(response => response.json())
-    .then(data => {
-      setEventDetails(data)
-      setOwned(data.owned)
+
+    Promise.all([
+      fetch(`${ApiUrl.EVENT_RESOURCE}/${id}`, requestOptions)
+      .then(response => response.json()),
+
+      fetch(`${ApiUrl.FORM}?eventId=${id}`, requestOptions)
+      .then(response => response.json()),
+    ]).then( ([eventData, formData]) => {
+      setEventDetails(eventData)
+      setOwned(eventData.owned)
+      setRegistrationOpen(formData.isOpen)
       setIsLoading(false)
     })
-}, [])
+  }, [])
 
   return (
     <div className='w-screen h-full overflow-auto'>
@@ -140,9 +147,16 @@ export default function EventDetails() {
                     </div> 
                     :
                     <div>
-                      <a href="#" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
-                        Register
-                      </a>
+                      {isRegistrationOpen ? 
+                        <a href={`/register-for-event?eventId=${id}`} class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
+                          Register
+                        </a>
+                        :
+                        <div class='bg-gray-400 text-white font-bold py-2 px-4 text-2xl rounded focus:outline-none focus:shadow-outline'>
+                          Registration closed
+                        </div>
+                      }
+                      
                     </div>
                   }
             </div>

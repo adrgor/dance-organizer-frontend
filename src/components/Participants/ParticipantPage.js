@@ -109,7 +109,7 @@ export default function ParticipantPage() {
         };
 
         fetch(`${ApiUrl.PARTICIPANT_REGISTRATIONS}?eventId=${eventId}`, requestOptions)
-        window.location.reload()
+        .then(res => window.location.reload())   
     }
 
     const handleEmailSend = (title, body) => {
