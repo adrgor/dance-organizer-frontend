@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import ApiUrl from '../../utils/ApiUrl'
 import { DESCRIPTION, MULTIPLE_CHOICE, TICKET } from '../../utils/RegistrationFormInputs'
 import LoadingSpinner from '../GeneralUseComponents/LoadingSpinner'
+import ErrorPopUp from '../GeneralUseComponents/ErrorPopUp'
 
 export default function ParticipantRegistrationForm() {
   const eventId = useSearchParams()[0].get("eventId")
@@ -14,6 +15,7 @@ export default function ParticipantRegistrationForm() {
   const [isPartnerRegistration, setPartnerRegistration] = useState(false)
   const [eventName, setEventName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const [registrationForm, setRegistrationForm] = useState({
     inputs: [],
@@ -184,10 +186,25 @@ export default function ParticipantRegistrationForm() {
       },
       body: JSON.stringify(requestBody),
     };
-    fetch(ApiUrl.PARTICIPANT_REGISTRATIONS, requestOptions);
-    navigate("/registration-confirmed")
+    const message = validateInputs(registrationForm.inputs, requestBody.participant)
+    if (message) {
+      setErrorMessage(message)
+    } else {
+      fetch(ApiUrl.PARTICIPANT_REGISTRATIONS, requestOptions);
+      navigate("/registration-confirmed")
+    }
   } 
 
+  const validateInputs = (formInputs, userInputs) => {
+    let inputCopy = formInputs.filter(input => (input.isRequired))
+    for (const index in inputCopy) {
+      const formInput = inputCopy[index]
+      let userInput = userInputs.find(input => (input.question == formInput.question))
+      if (!userInput.value[0]) {
+        return 'Some of the required fields are empty'
+      }
+    }
+  }
   
   return (
     <div className='h-screen w-[800px] bg-white'>
@@ -197,6 +214,7 @@ export default function ParticipantRegistrationForm() {
          </div>
         :
           <form className='w-full bg-white' onSubmit={handleSubmit}>
+            {errorMessage && <div className='ml-5'><ErrorPopUp errorMessage={errorMessage} setErrorMessage={setErrorMessage}/></div>}
             <div className='text-center text-4xl font-bold m-5'>{eventName}</div>
             <div className='border pb-5'>
               {registrationForm.inputs.map((input, index) => {

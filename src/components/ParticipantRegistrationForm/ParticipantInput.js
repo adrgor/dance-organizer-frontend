@@ -7,10 +7,14 @@ import { DROP_DOWN } from '../../utils/RegistrationFormInputs'
 import { DESCRIPTION } from '../../utils/RegistrationFormInputs'
 import DescriptionEditor from '../EventDetails/DesriptionEditor'
 
-export default function ParticipantInput({ index, type, question, options, description, tickets, isPartner, inputs, setInput, setRole }) {
+export default function ParticipantInput({ index, type, question, options, description, tickets, isPartner, inputs, setInput, setRole, isRequired }) {
   return (
     <div className={`flex justify-around items-center mt-5`}>
-      {type !== DESCRIPTION && <p className='text-xl w-1/3'>{question}</p>}
+      {type !== DESCRIPTION && 
+        <div className='w-1/3'>
+          <p className='text-xl'>{question}</p>
+          {isRequired && <p className='text-sm font-thin italic'>Required *</p> }
+        </div>}
       {(() => {
         if (type == INPUT_FIELD)
           return <input className='w-[50%] text-lg px-2 py-2 bg-gray-100 border-b focus:outline-none focus:border-b-black'
