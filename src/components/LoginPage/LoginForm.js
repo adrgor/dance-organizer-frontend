@@ -63,9 +63,9 @@ export default function LoginForm({setErrorMessage}) {
         </button>
 
         <div class='flex flex-col items-center justify-between'>
-          <a class='font-bold text-2xl text-blue-500 hover:text-blue-800' href='/forgot-password'>
+          {/* <a class='font-bold text-2xl text-blue-500 hover:text-blue-800' href='/forgot-password'>
             Forgot Password?
-          </a>  
+          </a>   */}
           <a class='font-bold text-2xl text-blue-500 hover:text-blue-800' href='/register'>
             Create new account
           </a>  

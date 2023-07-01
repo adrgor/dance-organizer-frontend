@@ -17,7 +17,7 @@ export default function InfoBox() {
           <li>And much more!</li>
       </ul>
 
-      <p>Use test user: Username: user, Password: password</p>
+      {/* <p>Use test user: Username: user, Password: password</p> */}
       <p>Start using dencify now, log in, create a new account, or <a href='/events' style={{color: '#638FFF'}}>BROWSE AS A GUEST</a></p>
     </div>
   )
