@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ACCEPTED, CANCELLED, DESCRIPTION, MULTIPLE_CHOICE, PAID, PARTIALLY_PAID, REGISTERED, TICKET, WAITING_LIST } from '../../utils/RegistrationFormInputs'
+import { ACCEPTED, CANCELED, DESCRIPTION, MULTIPLE_CHOICE, PAID, PARTIALLY_PAID, REGISTERED, TICKET, WAITING_LIST } from '../../utils/RegistrationFormInputs'
 import { useSearchParams } from 'react-router-dom'
 import ApiUrl from '../../utils/ApiUrl'
 import { useEffect } from 'react'
@@ -80,8 +80,8 @@ export default function ParticipantDetails({ participant, formPattern, tickets, 
         <td className='p-5'>
             <input type='checkbox' checked={isCheckedState} onChange={() => handleChecked(participant.participantId)}/>
         </td>
-        <td className='p-5'>{participant.participantId}</td>
-        <td className='p-5'>{participant.partnerId ? participant.partnerId : "No partner"}</td>
+        <td className='p-5'>{participant.participantId.substr(participant.participantId.length - 5)}</td>
+        <td className='p-5'>{participant.partnerId ? participant.partnerId.substr(participant.partnerId.length - 5) : "No partner"}</td>
 
         {formPattern.map(input => {
             if(input.type === DESCRIPTION) return
@@ -135,12 +135,12 @@ export default function ParticipantDetails({ participant, formPattern, tickets, 
         <td className='p-5'>
             <select className='text-center' disabled={isDisabled}
                     onChange={(e) => setStatus(e.target.value)}>
-                <option selected={status === REGISTERED}>{REGISTERED}</option>
-                <option selected={status === WAITING_LIST}>{WAITING_LIST}</option>
-                <option selected={status === ACCEPTED}>{ACCEPTED}</option>
-                <option selected={status === PARTIALLY_PAID}>{PARTIALLY_PAID}</option>
-                <option selected={status === PAID}>{PAID}</option>
-                <option selected={status === CANCELLED}>{CANCELLED}</option>
+                <option selected={status === "REGISTERED"}>{REGISTERED}</option>
+                <option selected={status === "WAITING LIST"}>{WAITING_LIST}</option>
+                <option selected={status === "ACCEPTED"}>{ACCEPTED}</option>
+                <option selected={status === "PARTIALLY PAID"}>{PARTIALLY_PAID}</option>
+                <option selected={status === "PAID"}>{PAID}</option>
+                <option selected={status === "CANCELED"}>{CANCELED}</option>
             </select>
         </td>
         <td className='p-5'>

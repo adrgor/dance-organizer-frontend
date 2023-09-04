@@ -1,6 +1,7 @@
 const danceStyles = [
 'Afro',
 'Afro House',
+'Authentic Jazz',
 'Bachata',
 'Bachata Moderna',
 'Bachatango',
@@ -99,6 +100,7 @@ const danceStyles = [
 'Shimmy',
 'Show,Tango',
 'Son',
+'Son Moderno',
 'Spanish Bolero',
 'Swing',
 'Tango',

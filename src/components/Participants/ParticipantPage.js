@@ -4,7 +4,7 @@ import ApiUrl from '../../utils/ApiUrl';
 import { useSearchParams } from 'react-router-dom';
 import TopBar from '../GeneralUseComponents/TopBar';
 import ParticipantDetails from './ParticipantDetails';
-import { ACCEPTED, CANCELLED, DESCRIPTION, MULTIPLE_CHOICE, PAID, PARTIALLY_PAID, REGISTERED, TICKET, WAITING_LIST } from '../../utils/RegistrationFormInputs';
+import { ACCEPTED, CANCELED, DESCRIPTION, MULTIPLE_CHOICE, PAID, PARTIALLY_PAID, REGISTERED, TICKET, WAITING_LIST } from '../../utils/RegistrationFormInputs';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import EmailFrom from './EmailForm';
 
@@ -250,7 +250,7 @@ export default function ParticipantPage() {
                                     <option>{ACCEPTED}</option>
                                     <option>{PARTIALLY_PAID}</option>
                                     <option>{PAID}</option>
-                                    <option>{CANCELLED}</option>
+                                    <option>{CANCELED}</option>
                                 </select>
                             </td>
                             <td className='px-6 pb-3 flex'>

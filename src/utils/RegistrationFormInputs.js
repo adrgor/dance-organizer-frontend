@@ -14,7 +14,7 @@
     ACCEPTED: "Accepted",
     PARTIALLY_PAID: "Partially paid",
     PAID: "Paid",
-    CANCELLED: "Canceled"
+    CANCELED: "Canceled"
 }
 
 module.exports = RegistrationFormInputs

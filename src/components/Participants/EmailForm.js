@@ -28,7 +28,7 @@ export default function EmailFrom({isActive, setActive, sendEmail}) {
                    value={title} onChange={(e) => setTitle(e.target.value)}/>
             <DescriptionEditor value={body} setValue={setBody}/>
             <div className='flex justify-around p-2 mt-5'>
-                <div onClick={() => sendEmail(title, body)}
+                <div onClick={() => {sendEmail(title, body); setActive(false)}}
                     className='bg-blue-500 hover:bg-blue-700 px-4 w-1/3 py-2 text-2xl font-bold text-white rounded-md border text-center'>
                     Send email
                 </div>
